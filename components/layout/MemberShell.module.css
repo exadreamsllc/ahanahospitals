@@ -1,0 +1,27 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--ahana-cream);
+}
+
+.main {
+  flex: 1;
+  padding: var(--ahana-space-10) 0 var(--ahana-space-12);
+}
+
+.header {
+  margin-bottom: var(--ahana-space-8);
+  max-width: 72ch;
+}
+
+.title {
+  margin-bottom: var(--ahana-space-3);
+}
+
+.description {
+  margin: 0;
+  color: var(--ahana-muted);
+  font-size: var(--ahana-font-size-lg);
+}

@@ -1,0 +1,20 @@
+.band {
+  background: var(--ahana-surface-soft);
+  padding: 0 0 clamp(40px, 5vw, 64px);
+}
+
+.frame {
+  background: var(--ahana-white);
+  border: 6px solid var(--ahana-white);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--ahana-shadow-lift);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  max-height: 620px;
+  object-fit: cover;
+  display: block;
+}

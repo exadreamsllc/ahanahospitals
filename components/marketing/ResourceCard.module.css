@@ -1,0 +1,227 @@
+.card {
+  display: flex;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--ahana-shadow-sm);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 160ms ease-out, box-shadow 160ms ease-out;
+}
+
+.inner:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ahana-shadow-md);
+}
+
+.inner:focus-within {
+  box-shadow: var(--ahana-shadow-md);
+}
+
+.cardMuted .inner {
+  background: var(--ahana-surface-soft);
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.cardMuted .inner:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.media {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  /* Soft backdrop so letterboxing on portrait sources reads as intentional. */
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.85), transparent 65%),
+    var(--ahana-lavender);
+  padding: var(--ahana-space-3);
+}
+
+/*
+ * `contain`, not `cover`. Knowledge Centre sources are mostly portrait
+ * brochure scans; cropping them into a landscape card discarded roughly half
+ * the page, including the title. Containing shows the whole document.
+ */
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.mediaFallback {
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), transparent 60%),
+    var(--ahana-lavender);
+}
+
+.fallbackLabel {
+  font-family: var(--ahana-font-serif);
+  font-size: clamp(22px, 3vw, 30px);
+  color: var(--ahana-purple);
+  opacity: 0.75;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--ahana-space-6);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ahana-space-2) var(--ahana-space-3);
+  margin-bottom: var(--ahana-space-3);
+}
+
+.category {
+  background: var(--ahana-lavender);
+  color: var(--ahana-purple-dark);
+  border-radius: var(--ahana-radius-pill);
+  padding: 4px 12px;
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 700;
+}
+
+.metaLabel {
+  color: var(--ahana-muted);
+  font-size: var(--ahana-font-size-sm);
+}
+
+.title {
+  margin: 0 0 var(--ahana-space-2);
+  color: var(--ahana-purple);
+  font-size: var(--ahana-font-size-xl);
+}
+
+.description {
+  margin: 0 0 var(--ahana-space-5);
+  color: var(--ahana-muted);
+  flex: 1;
+}
+
+.action {
+  font-weight: 800;
+  color: var(--ahana-orange);
+}
+
+.comingSoon {
+  display: inline-block;
+  background: var(--ahana-surface-warm);
+  border: 1px solid var(--ahana-surface-warm-border);
+  color: var(--ahana-purple-dark);
+  border-radius: var(--ahana-radius-pill);
+  padding: 4px 14px;
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 700;
+}
+
+.titleLink {
+  color: inherit;
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+
+.titleLink:hover {
+  color: var(--ahana-orange);
+  text-decoration: underline;
+}
+
+.titleLink:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+  border-radius: var(--ahana-radius-sm);
+}
+
+.mediaLink {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+
+.mediaLink:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+}
+
+.actionLink {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 800;
+  color: var(--ahana-orange);
+}
+
+.actionLink:hover {
+  text-decoration: underline;
+}
+
+.actionLink:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+  border-radius: var(--ahana-radius-sm);
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  gap: var(--ahana-space-3);
+}
+
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ahana-space-1-5);
+  background: var(--ahana-surface-soft);
+  color: var(--ahana-purple-dark);
+  border: 1px solid var(--ahana-border);
+  padding: 6px 12px;
+  border-radius: var(--ahana-radius-pill);
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.saveButton:hover {
+  background: var(--ahana-lavender);
+  border-color: var(--ahana-purple);
+  color: var(--ahana-purple);
+}
+
+.saveButtonActive {
+  background: var(--ahana-purple);
+  border-color: var(--ahana-purple);
+  color: var(--ahana-white);
+}
+
+.saveButtonActive:hover {
+  background: var(--ahana-purple-dark);
+  border-color: var(--ahana-purple-dark);
+  color: var(--ahana-white);
+}
+
+.saveIcon {
+  width: 14px;
+  height: 14px;
+}
+

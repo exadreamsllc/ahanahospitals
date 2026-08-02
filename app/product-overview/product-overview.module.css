@@ -1,0 +1,180 @@
+.stack {
+  display: grid;
+  gap: clamp(40px, 5vw, 68px);
+}
+
+.intro {
+  max-width: 76ch;
+}
+
+.introLede {
+  font-size: var(--ahana-font-size-lg);
+  color: var(--ahana-text);
+}
+
+.intro > :last-child {
+  margin-bottom: 0;
+}
+
+/* Live modules ---------------------------------------------------------- */
+
+.moduleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--ahana-space-5);
+}
+
+.module {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-xl);
+  padding: var(--ahana-space-6);
+  box-shadow: var(--ahana-shadow-sm);
+}
+
+/*
+ * column-reverse puts the status badge above the title regardless of title
+ * length. Inline placement wrapped unpredictably — badges sat beside short
+ * titles and dropped below long ones, so the card grid read as ragged.
+ */
+.moduleHead {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: var(--ahana-space-2);
+  margin-bottom: var(--ahana-space-3);
+}
+
+.moduleName {
+  margin: 0;
+  color: var(--ahana-purple);
+  font-size: var(--ahana-font-size-xl);
+}
+
+.liveBadge {
+  background: var(--ahana-surface-success);
+  border: 1px solid var(--ahana-success);
+  color: var(--ahana-success);
+  border-radius: var(--ahana-radius-pill);
+  padding: 3px 12px;
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 700;
+}
+
+.moduleSummary {
+  margin: 0 0 var(--ahana-space-3);
+  color: var(--ahana-text);
+  font-weight: 600;
+}
+
+.moduleDetail {
+  margin: 0 0 var(--ahana-space-4);
+  color: var(--ahana-muted);
+}
+
+.capabilities {
+  margin: 0 0 var(--ahana-space-5);
+  padding-left: var(--ahana-space-5);
+  color: var(--ahana-muted);
+  font-size: var(--ahana-font-size-sm);
+  flex: 1;
+}
+
+.capabilities li {
+  margin-bottom: var(--ahana-space-1);
+}
+
+/* Coming soon ----------------------------------------------------------- */
+
+.soonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--ahana-space-5);
+}
+
+.soonCard {
+  background: var(--ahana-surface-soft);
+  border: 1px dashed var(--ahana-border-strong);
+  border-radius: var(--ahana-radius-xl);
+  padding: var(--ahana-space-6);
+}
+
+.soonName {
+  margin: 0;
+  color: var(--ahana-purple-dark);
+  font-size: var(--ahana-font-size-lg);
+}
+
+.soonBadge {
+  background: var(--ahana-surface-warm);
+  border: 1px solid var(--ahana-surface-warm-border);
+  color: var(--ahana-purple-dark);
+  border-radius: var(--ahana-radius-pill);
+  padding: 3px 12px;
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 700;
+}
+
+/* Journey --------------------------------------------------------------- */
+
+.journey {
+  display: grid;
+  gap: var(--ahana-space-4);
+  counter-reset: journey;
+}
+
+.journeyItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ahana-space-4);
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-lg);
+  padding: var(--ahana-space-4) var(--ahana-space-5);
+}
+
+.journeyNumber {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ahana-lavender);
+  color: var(--ahana-purple);
+  font-weight: 800;
+}
+
+.journeyBody {
+  min-width: 0;
+}
+
+.journeyLink {
+  font-weight: 800;
+  color: var(--ahana-purple);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  border-radius: var(--ahana-radius-sm);
+}
+
+.journeyLink:hover {
+  color: var(--ahana-purple-dark);
+}
+
+.journeyLink:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+}
+
+.journeyNote {
+  margin: var(--ahana-space-1) 0 0;
+  color: var(--ahana-muted);
+  font-size: var(--ahana-font-size-sm);
+}
+
+.journeyStart {
+  margin: var(--ahana-space-6) 0 0;
+}

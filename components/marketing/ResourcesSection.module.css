@@ -1,0 +1,25 @@
+.section {
+  background: var(--ahana-surface-soft);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ahana-space-6);
+}
+
+.more {
+  margin: var(--ahana-space-8) 0 0;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 620px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

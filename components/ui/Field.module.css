@@ -1,0 +1,119 @@
+/* Shared styling for FormField, SelectField and CheckboxField. */
+
+.field {
+  margin-bottom: var(--ahana-space-5);
+}
+
+.label {
+  display: block;
+  font-weight: 700;
+  color: var(--ahana-purple-dark);
+  margin-bottom: var(--ahana-space-2);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--ahana-muted);
+  font-size: var(--ahana-font-size-sm);
+}
+
+.control {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--ahana-border-strong);
+  border-radius: var(--ahana-radius-md);
+  background: var(--ahana-white);
+  color: var(--ahana-text);
+  font-family: inherit;
+  font-size: var(--ahana-font-size-base);
+  line-height: 1.4;
+  transition: border-color 120ms ease-in-out;
+}
+
+.control::placeholder {
+  color: var(--ahana-muted);
+}
+
+.control:hover {
+  border-color: var(--ahana-purple);
+}
+
+.control:focus-visible {
+  outline: none;
+  border-color: var(--ahana-purple);
+  box-shadow: var(--ahana-focus-ring);
+}
+
+.control:disabled {
+  background: var(--ahana-cream);
+  color: var(--ahana-muted);
+  cursor: not-allowed;
+}
+
+.select {
+  /* Keep the native control but reserve room for the platform arrow. */
+  padding-right: var(--ahana-space-10);
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ahana-purple) 50%),
+    linear-gradient(135deg, var(--ahana-purple) 50%, transparent 50%);
+  background-position:
+    calc(100% - 22px) calc(50% + 2px),
+    calc(100% - 16px) calc(50% + 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.invalid,
+.invalid:hover {
+  border-color: var(--ahana-danger);
+}
+
+.hint {
+  margin: var(--ahana-space-2) 0 0;
+  color: var(--ahana-muted);
+  font-size: var(--ahana-font-size-sm);
+}
+
+.error {
+  display: flex;
+  gap: var(--ahana-space-2);
+  align-items: flex-start;
+  margin: var(--ahana-space-2) 0 0;
+  color: var(--ahana-danger);
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 600;
+}
+
+.errorIcon {
+  flex: none;
+  margin-top: 2px;
+}
+
+/* Checkbox ------------------------------------------------------------- */
+
+.checkboxField {
+  margin-bottom: var(--ahana-space-6);
+}
+
+.checkboxLabel {
+  display: flex;
+  gap: var(--ahana-space-3);
+  align-items: flex-start;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.checkbox {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--ahana-purple);
+  cursor: pointer;
+}
+
+.checkbox:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+  border-radius: var(--ahana-radius-sm);
+}

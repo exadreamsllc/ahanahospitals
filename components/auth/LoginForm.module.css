@@ -1,0 +1,6 @@
+.forgot {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--ahana-space-6);
+  margin-top: calc(var(--ahana-space-2) * -1);
+}

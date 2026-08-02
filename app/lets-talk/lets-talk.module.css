@@ -1,0 +1,123 @@
+.stack {
+  display: grid;
+  gap: clamp(40px, 5vw, 68px);
+}
+
+/* Channels -------------------------------------------------------------- */
+
+.channels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--ahana-space-5);
+}
+
+.channel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ahana-space-2);
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-xl);
+  padding: var(--ahana-space-6);
+  box-shadow: var(--ahana-shadow-sm);
+}
+
+.channelPending {
+  background: var(--ahana-surface-soft);
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.channelLabel {
+  margin: 0;
+  color: var(--ahana-purple);
+  font-size: var(--ahana-font-size-xl);
+}
+
+.channelDetail {
+  font-weight: 800;
+  color: var(--ahana-orange);
+  overflow-wrap: anywhere;
+}
+
+a.channelDetail:hover {
+  color: var(--ahana-purple);
+}
+
+a.channelDetail:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+  border-radius: var(--ahana-radius-sm);
+}
+
+.channelDescription {
+  margin: 0;
+  color: var(--ahana-muted);
+  flex: 1;
+}
+
+.badge {
+  background: var(--ahana-surface-warm);
+  border: 1px solid var(--ahana-surface-warm-border);
+  color: var(--ahana-purple-dark);
+  border-radius: var(--ahana-radius-pill);
+  padding: 4px 14px;
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 700;
+}
+
+/* Steps ----------------------------------------------------------------- */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--ahana-space-5);
+  counter-reset: step;
+}
+
+.step {
+  background: var(--ahana-lavender);
+  border-radius: var(--ahana-radius-xl);
+  padding: var(--ahana-space-6);
+}
+
+.stepNumber {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ahana-white);
+  color: var(--ahana-purple);
+  font-weight: 900;
+  margin-bottom: var(--ahana-space-4);
+}
+
+.stepTitle {
+  margin: 0 0 var(--ahana-space-2);
+  color: var(--ahana-purple-dark);
+  font-size: var(--ahana-font-size-lg);
+}
+
+.stepText {
+  margin: 0;
+  color: var(--ahana-purple-dark);
+  opacity: 0.85;
+}
+
+/* Privacy --------------------------------------------------------------- */
+
+.privacy {
+  max-width: 76ch;
+}
+
+.privacyTitle {
+  margin-top: 0;
+  font-family: var(--ahana-font-serif);
+  font-size: clamp(24px, 3vw, 34px);
+}
+
+.privacy > :last-child {
+  margin-bottom: 0;
+}

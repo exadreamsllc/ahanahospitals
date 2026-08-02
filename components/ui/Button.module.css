@@ -1,0 +1,122 @@
+/* Shared styling for PrimaryButton, LoadingButton and SecondaryLink. */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ahana-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--ahana-radius-md);
+  padding: 15px 22px;
+  font-family: inherit;
+  font-size: var(--ahana-font-size-base);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease-in-out,
+    border-color 120ms ease-in-out,
+    color 120ms ease-in-out;
+  /* Comfortable touch target on mobile. */
+  min-height: 48px;
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* Variants ------------------------------------------------------------- */
+
+.primary {
+  background: var(--ahana-purple);
+  color: var(--ahana-white);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--ahana-purple-dark);
+  color: var(--ahana-white);
+}
+
+.secondary {
+  background: var(--ahana-white);
+  color: var(--ahana-purple);
+  border-color: var(--ahana-border-strong);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--ahana-lavender);
+  color: var(--ahana-purple-dark);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--ahana-purple);
+  padding: var(--ahana-space-2) var(--ahana-space-3);
+  min-height: 44px;
+}
+
+.ghost:hover:not(:disabled) {
+  color: var(--ahana-purple-dark);
+  text-decoration: underline;
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Text link ------------------------------------------------------------ */
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ahana-space-1);
+  color: var(--ahana-purple);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  border-radius: var(--ahana-radius-sm);
+}
+
+.link:hover {
+  color: var(--ahana-purple-dark);
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+}
+
+/* Pending spinner ------------------------------------------------------ */
+
+.spinner {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: ahana-spin 700ms linear infinite;
+}
+
+@keyframes ahana-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-right-color: currentColor;
+    opacity: 0.55;
+  }
+}

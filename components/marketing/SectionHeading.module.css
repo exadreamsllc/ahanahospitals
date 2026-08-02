@@ -1,0 +1,24 @@
+.heading {
+  max-width: 62ch;
+  margin-bottom: var(--ahana-space-8);
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(30px, 4vw, 48px);
+  margin: var(--ahana-space-3) 0 var(--ahana-space-4);
+}
+
+.description {
+  color: var(--ahana-muted);
+  font-size: var(--ahana-font-size-lg);
+}
+
+.description > :last-child {
+  margin-bottom: 0;
+}

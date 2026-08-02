@@ -1,0 +1,212 @@
+/*
+ * Ahana base layer: element defaults plus a very small set of shared
+ * layout/typography helpers. Component-level styling lives in CSS Modules.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ahana-cream);
+  color: var(--ahana-text);
+  font-family: var(--ahana-font-sans);
+  font-size: var(--ahana-font-size-base);
+  line-height: var(--ahana-line-height);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--ahana-purple-dark);
+  line-height: 1.25;
+  margin: 0 0 var(--ahana-space-3);
+}
+
+h1 {
+  font-size: var(--ahana-font-size-3xl);
+  color: var(--ahana-purple);
+}
+
+h2 {
+  font-size: var(--ahana-font-size-2xl);
+}
+
+h3 {
+  font-size: var(--ahana-font-size-xl);
+}
+
+p {
+  margin: 0 0 var(--ahana-space-4);
+}
+
+a {
+  color: var(--ahana-purple);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--ahana-purple-dark);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+  border-radius: var(--ahana-radius-sm);
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Shared helpers ------------------------------------------------------- */
+
+.ahana-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ahana-skip-link {
+  position: absolute;
+  left: var(--ahana-space-4);
+  top: -100px;
+  z-index: 100;
+  background: var(--ahana-purple);
+  color: var(--ahana-white);
+  padding: var(--ahana-space-3) var(--ahana-space-5);
+  border-radius: var(--ahana-radius-md);
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 120ms ease-in;
+}
+
+.ahana-skip-link:focus-visible {
+  top: var(--ahana-space-4);
+  color: var(--ahana-white);
+}
+
+.ahana-container {
+  width: 100%;
+  max-width: var(--ahana-content-width);
+  margin: 0 auto;
+  padding: 0 var(--ahana-space-5);
+}
+
+.ahana-eyebrow {
+  margin: 0;
+  color: var(--ahana-orange);
+  font-weight: 700;
+  font-size: var(--ahana-font-size-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ahana-lede {
+  color: var(--ahana-muted);
+  font-size: var(--ahana-font-size-lg);
+}
+
+.ahana-muted {
+  color: var(--ahana-muted);
+}
+
+.ahana-card {
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-xl);
+  padding: var(--ahana-space-8);
+  box-shadow: var(--ahana-shadow-sm);
+}
+
+.ahana-stack > * + * {
+  margin-top: var(--ahana-space-4);
+}
+
+.ahana-grid {
+  display: grid;
+  gap: var(--ahana-space-5);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.ahana-list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Marketing display type — serif headlines on the approved V2 site. */
+.ahana-display {
+  font-family: var(--ahana-font-serif);
+  color: var(--ahana-purple);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.ahana-section {
+  padding: var(--ahana-section-padding) 0;
+}
+
+.ahana-panel {
+  background: var(--ahana-panel-gradient);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-xl);
+  padding: clamp(28px, 4vw, 54px);
+  box-shadow: var(--ahana-shadow-sm);
+}
+
+.ahana-notice {
+  background: var(--ahana-lavender);
+  border: 1px solid var(--ahana-border-strong);
+  border-radius: var(--ahana-radius-lg);
+  padding: var(--ahana-space-5);
+  color: var(--ahana-purple-dark);
+}
+
+.ahana-definition-list {
+  display: grid;
+  gap: var(--ahana-space-4);
+  margin: 0;
+}
+
+.ahana-definition-list dt {
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ahana-muted);
+}
+
+.ahana-definition-list dd {
+  margin: var(--ahana-space-1) 0 0;
+  font-size: var(--ahana-font-size-lg);
+  color: var(--ahana-text);
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

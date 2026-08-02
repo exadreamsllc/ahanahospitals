@@ -1,0 +1,55 @@
+.section {
+  background: var(--ahana-surface-soft);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--ahana-space-5);
+}
+
+.card {
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-lg);
+  padding: var(--ahana-space-6);
+  box-shadow: var(--ahana-shadow-sm);
+}
+
+.helpdesk {
+  background: var(--ahana-lavender);
+  border-color: var(--ahana-border-strong);
+}
+
+.name {
+  margin: 0 0 var(--ahana-space-2);
+  color: var(--ahana-purple);
+  font-size: var(--ahana-font-size-xl);
+}
+
+.address {
+  margin: 0 0 var(--ahana-space-5);
+  color: var(--ahana-muted);
+}
+
+.action {
+  font-weight: 800;
+  color: var(--ahana-purple);
+  text-decoration: none;
+  border-radius: var(--ahana-radius-sm);
+}
+
+.action:hover {
+  text-decoration: underline;
+}
+
+.action:focus-visible {
+  outline: none;
+  box-shadow: var(--ahana-focus-ring);
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

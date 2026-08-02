@@ -1,0 +1,67 @@
+.footer {
+  background: var(--ahana-purple-dark);
+  color: var(--ahana-white);
+  margin-top: auto;
+  padding: var(--ahana-space-10) 0 var(--ahana-space-8);
+}
+
+.inner {
+  display: grid;
+  gap: var(--ahana-space-6);
+}
+
+.brandName {
+  display: block;
+  font-size: var(--ahana-font-size-lg);
+  font-weight: 800;
+  margin-bottom: var(--ahana-space-2);
+}
+
+.tagline {
+  margin: 0;
+  color: var(--ahana-lavender);
+  max-width: 52ch;
+}
+
+.linkList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ahana-space-2) var(--ahana-space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link {
+  color: var(--ahana-white);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  display: inline-block;
+  padding: var(--ahana-space-1) 0;
+}
+
+.link:hover {
+  color: var(--ahana-lavender);
+}
+
+.link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ahana-purple-dark), 0 0 0 6px var(--ahana-orange);
+  border-radius: var(--ahana-radius-sm);
+}
+
+.boundary {
+  border-top: 1px solid rgba(233, 224, 247, 0.25);
+  padding-top: var(--ahana-space-5);
+  color: var(--ahana-lavender);
+  font-size: var(--ahana-font-size-sm);
+  max-width: 76ch;
+  margin: 0;
+}
+
+.copyright {
+  margin: 0;
+  color: var(--ahana-lavender);
+  font-size: var(--ahana-font-size-sm);
+}

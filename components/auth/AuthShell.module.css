@@ -1,0 +1,26 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--ahana-cream);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--ahana-space-12) var(--ahana-space-5);
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--ahana-auth-width);
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: var(--ahana-space-8) var(--ahana-space-4);
+  }
+}
