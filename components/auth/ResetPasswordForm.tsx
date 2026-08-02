@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { resetPasswordAction } from "@/app/auth/reset-password/actions";
+import { resetPasswordAction } from "@/lib/actions/auth/reset-password";
 import { AlertMessage } from "@/components/ui/AlertMessage";
 import { FormField } from "@/components/ui/FormField";
 import { LoadingButton } from "@/components/ui/LoadingButton";

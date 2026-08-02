@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { forgotPasswordAction } from "@/app/auth/forgot-password/actions";
+import { forgotPasswordAction } from "@/lib/actions/auth/forgot-password";
 import { AlertMessage } from "@/components/ui/AlertMessage";
 import { FormField } from "@/components/ui/FormField";
 import { LoadingButton } from "@/components/ui/LoadingButton";

@@ -1,0 +1,258 @@
+.page {
+  font-family: var(--ahana-font-sans);
+  color: var(--ahana-text);
+  background-color: var(--ahana-cream);
+  min-height: 100vh;
+}
+
+/* Header styling */
+.header {
+  border-bottom: 1px solid var(--ahana-border);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.headerContainer {
+  max-width: var(--ahana-content-width);
+  margin: 0 auto;
+  padding: var(--ahana-space-4) var(--ahana-space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: var(--ahana-font-serif);
+  font-size: var(--ahana-font-size-xl);
+  font-weight: 700;
+  color: var(--ahana-purple);
+  text-decoration: none;
+}
+
+/* Hero Section */
+.hero {
+  padding: calc(var(--ahana-space-12) * 2) var(--ahana-space-6) var(--ahana-space-12);
+  text-align: center;
+  background: radial-gradient(circle at top, var(--ahana-lavender) 0%, transparent 60%);
+}
+
+.heroContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tagline {
+  display: inline-block;
+  background-color: var(--ahana-purple);
+  color: var(--ahana-white);
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: var(--ahana-space-1) var(--ahana-space-3);
+  border-radius: var(--ahana-radius-pill);
+  margin-bottom: var(--ahana-space-4);
+}
+
+.title {
+  font-family: var(--ahana-font-serif);
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.15;
+  color: var(--ahana-purple-dark);
+  margin-bottom: var(--ahana-space-4);
+}
+
+.subtitle {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--ahana-muted);
+  line-height: var(--ahana-line-height);
+  max-width: 60ch;
+  margin: 0 auto var(--ahana-space-8);
+}
+
+.heroActions {
+  display: flex;
+  justify-content: center;
+  gap: var(--ahana-space-4);
+  flex-wrap: wrap;
+}
+
+/* Features Section */
+.features {
+  padding: var(--ahana-space-12) var(--ahana-space-6);
+  max-width: var(--ahana-content-width);
+  margin: 0 auto;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--ahana-space-12);
+}
+
+.sectionTitle {
+  font-family: var(--ahana-font-serif);
+  font-size: clamp(28px, 4vw, 40px);
+  color: var(--ahana-purple-dark);
+  margin-bottom: var(--ahana-space-2);
+}
+
+.sectionText {
+  color: var(--ahana-muted);
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--ahana-space-6);
+}
+
+.featureCard {
+  background: var(--ahana-panel-gradient);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-lg);
+  padding: var(--ahana-space-8);
+  box-shadow: var(--ahana-shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ahana-shadow-lift);
+}
+
+.featureIcon {
+  font-size: 32px;
+  margin-bottom: var(--ahana-space-4);
+  display: inline-block;
+}
+
+.featureTitle {
+  font-family: var(--ahana-font-serif);
+  font-size: var(--ahana-font-size-xl);
+  color: var(--ahana-purple-dark);
+  margin-bottom: var(--ahana-space-2);
+}
+
+.featureText {
+  color: var(--ahana-muted);
+  line-height: 1.6;
+}
+
+/* Pricing Section */
+.pricing {
+  background-color: var(--ahana-surface-soft);
+  border-top: 1px solid var(--ahana-border);
+  border-bottom: 1px solid var(--ahana-border);
+  padding: var(--ahana-space-12) var(--ahana-space-6);
+}
+
+.pricingContainer {
+  max-width: var(--ahana-content-width);
+  margin: 0 auto;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--ahana-space-6);
+  margin-top: var(--ahana-space-10);
+  align-items: stretch;
+}
+
+.priceCard {
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-lg);
+  padding: var(--ahana-space-8);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--ahana-shadow-sm);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.priceCardPopular {
+  border: 2px solid var(--ahana-purple);
+  transform: scale(1.02);
+}
+
+.popularBadge {
+  position: absolute;
+  top: calc(var(--ahana-space-3) * -1);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--ahana-purple);
+  color: var(--ahana-white);
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 600;
+  padding: var(--ahana-space-1) var(--ahana-space-3);
+  border-radius: var(--ahana-radius-pill);
+}
+
+.tierName {
+  font-family: var(--ahana-font-serif);
+  font-size: var(--ahana-font-size-xl);
+  color: var(--ahana-purple-dark);
+  margin-bottom: var(--ahana-space-2);
+}
+
+.tierPrice {
+  margin-bottom: var(--ahana-space-6);
+}
+
+.amount {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--ahana-purple-dark);
+}
+
+.period {
+  color: var(--ahana-muted);
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--ahana-space-8);
+  flex-grow: 1;
+}
+
+.featureList li {
+  padding-left: var(--ahana-space-6);
+  position: relative;
+  margin-bottom: var(--ahana-space-3);
+  color: var(--ahana-text);
+}
+
+.featureList li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--ahana-success);
+  font-weight: bold;
+}
+
+/* Footer styling */
+.footer {
+  background-color: var(--ahana-purple-dark);
+  color: var(--ahana-lavender);
+  padding: var(--ahana-space-10) var(--ahana-space-6);
+  text-align: center;
+}
+
+.footerContainer {
+  max-width: var(--ahana-content-width);
+  margin: 0 auto;
+}
+
+.footerLogo {
+  font-family: var(--ahana-font-serif);
+  font-size: var(--ahana-font-size-xl);
+  color: var(--ahana-white);
+  margin-bottom: var(--ahana-space-2);
+}

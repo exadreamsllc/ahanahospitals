@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
-import { registerAction } from "@/app/auth/register/actions";
+import { registerAction } from "@/lib/actions/auth/register";
 import { AlertMessage } from "@/components/ui/AlertMessage";
 import { CheckboxField } from "@/components/ui/CheckboxField";
 import { FormField } from "@/components/ui/FormField";

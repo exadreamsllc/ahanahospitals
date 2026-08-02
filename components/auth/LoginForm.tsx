@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { loginAction } from "@/app/auth/login/actions";
+import { loginAction } from "@/lib/actions/auth/login";
 import { AlertMessage } from "@/components/ui/AlertMessage";
 import { FormField } from "@/components/ui/FormField";
 import { LoadingButton } from "@/components/ui/LoadingButton";
