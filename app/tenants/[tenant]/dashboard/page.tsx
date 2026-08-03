@@ -9,6 +9,8 @@ import { requireUser } from "@/lib/auth/guards";
 import { readAccountMetadata } from "@/lib/auth/user";
 import { NO_MEDICAL_RECORDS_NOTICE, ROUTES } from "@/lib/constants/site";
 import { FOUNDER } from "@/lib/content/founder";
+import { createClient } from "@/utils/supabase/server";
+import { ReportView } from "@/components/admin/ReportView";
 import styles from "./dashboard.module.css";
 
 export const metadata: Metadata = {
@@ -44,6 +46,40 @@ export default async function DashboardPage() {
   const account = readAccountMetadata(user);
 
   const greetingName = account.fullName ?? account.email ?? "there";
+
+  const isElevated = ["Staff", "Administrator", "Professional", "Management"].includes(account.accountType);
+
+  if (isElevated) {
+    const supabase = await createClient();
+    
+    // Fetch profile preferences
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("preferences")
+      .eq("id", user.id)
+      .single();
+
+    const preferences = profile?.preferences as { report_columns?: string[] } | null;
+    const reportColumns = preferences?.report_columns || ["email", "phone", "status"];
+
+    // Fetch callback requests
+    const { data: callbacks } = await supabase
+      .from("callback_requests")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    return (
+      <MemberShell
+        title={`Operations Console — Welcome, ${greetingName}`}
+        description="Configure your custom dashboard column preferences, view patient callback requests, and export physical report pages."
+      >
+        <ReportView
+          callbacks={callbacks || []}
+          initialColumns={reportColumns}
+        />
+      </MemberShell>
+    );
+  }
 
   return (
     <MemberShell

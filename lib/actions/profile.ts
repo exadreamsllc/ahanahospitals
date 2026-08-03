@@ -65,3 +65,42 @@ export async function updateProfileAction(
     values,
   };
 }
+
+/**
+ * Updates the user's dashboard/reporting preferences.
+ */
+export async function updatePreferencesAction(
+  prevState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  const supabase = await createClient();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    return formError("You must be logged in to update preferences.");
+  }
+
+  // Read the checkbox columns
+  const reportColumns = formData.getAll("reportColumns").map((c) => c.toString());
+
+  const preferences = {
+    report_columns: reportColumns,
+  };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ preferences })
+    .eq("id", user.id);
+
+  if (error) {
+    return formError(error.message || "Failed to save preferences.");
+  }
+
+  revalidatePath("/profile");
+  revalidatePath("/dashboard");
+
+  return {
+    message: "Your display preferences have been saved.",
+    fieldErrors: {},
+  };
+}
