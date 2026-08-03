@@ -201,41 +201,23 @@ export default async function DashboardPage() {
       description="Your member area — the Ahana archive, the resources you save, and your account preferences."
     >
       <div className={styles.layout}>
-        {/* Continue reading -------------------------------------------- */}
-        <section aria-labelledby="continue-heading">
-          <h2 id="continue-heading" className={styles.sectionTitle}>
-            Continue reading
+        {/* Featured Video ---------------------------------------------- */}
+        <section aria-labelledby="video-heading">
+          <h2 id="video-heading" className={styles.sectionTitle}>
+            Featured Video
           </h2>
 
-          <Link href={ROUTES.story365} className={styles.continueCard}>
-            <div className={styles.continueMedia}>
-              <Image
-                src="/assets/365/hero.jpg"
-                alt=""
-                width={1351}
-                height={1800}
-                className={styles.continueImage}
-              />
-            </div>
-            <div className={styles.continueBody}>
-              <span className={styles.badge}>365 Days</span>
-              <h3 className={styles.continueTitle}>
-                365 Days of Meaningful Living
-              </h3>
-              <p className={styles.continueText}>
-                A shared-meal initiative bringing people together with dignity,
-                belonging and purpose — on ordinary days, not only on special
-                occasions.
-              </p>
-              <span className={styles.continueAction}>
-                Read the story<span aria-hidden="true"> →</span>
-              </span>
-            </div>
-          </Link>
+          <div className={styles.videoWrapper}>
+            <iframe
+              src="https://www.youtube.com/embed/WMjIftab4_U"
+              title="Ahana Hospitals - 365 Days of Meaningful Living"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
 
           <p className={styles.sectionNote}>
-            Reading progress is not tracked yet — this is the latest published
-            story.
+            Watch the video presentation of our &ldquo;365 Days of Meaningful Living&rdquo; community shared-meal program.
           </p>
         </section>
 
