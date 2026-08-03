@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { SecondaryLink } from "@/components/ui/SecondaryLink";
 import { ROUTES } from "@/lib/constants/site";
+import { PortalFinder } from "@/components/saas/PortalFinder";
 import styles from "./saas.module.css";
 
 export const metadata = {
@@ -118,6 +119,7 @@ export default function SaasLandingPage() {
           <p className={styles.subtitle}>
             Provide patients with a secure knowledge center, digital callback requests, and personal reading libraries. Manage operations with custom reporting. All in one DPDP-compliant platform.
           </p>
+          <PortalFinder />
           <div className={styles.heroActions}>
             <PrimaryButton type="button" fullWidth={false}>
               Get Started Free
