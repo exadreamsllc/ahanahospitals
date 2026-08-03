@@ -49,19 +49,19 @@ export default async function DashboardPage() {
 
   const isElevated = ["Staff", "Administrator", "Professional", "Management"].includes(account.accountType);
 
+  const supabase = await createClient();
+  
+  // Fetch profile preferences
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("preferences")
+    .eq("id", user.id)
+    .single();
+
+  const preferences = profile?.preferences as any;
+  const reportColumns = preferences?.report_columns || ["email", "phone", "status"];
+
   if (isElevated) {
-    const supabase = await createClient();
-    
-    // Fetch profile preferences
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("preferences")
-      .eq("id", user.id)
-      .single();
-
-    const preferences = profile?.preferences as { report_columns?: string[] } | null;
-    const reportColumns = preferences?.report_columns || ["email", "phone", "status"];
-
     // Fetch callback requests
     const { data: callbacks } = await supabase
       .from("callback_requests")
@@ -77,6 +77,120 @@ export default async function DashboardPage() {
           callbacks={callbacks || []}
           initialColumns={reportColumns}
         />
+      </MemberShell>
+    );
+  }
+
+  // Render dummy EMR console for patients if mock record exists
+  if (preferences?.patient_record) {
+    const record = preferences.patient_record;
+    return (
+      <MemberShell
+        title={`Welcome, ${greetingName}`}
+        description="Your patient portal — review your active vitals, daily medication routine, upcoming diagnostics, and consult slots."
+      >
+        <div style={{ display: "grid", gap: "var(--ahana-space-6)" }}>
+          {/* Header demographics */}
+          <div className="ahana-panel" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "var(--ahana-space-4)" }}>
+            <div>
+              <span style={{ fontSize: "var(--ahana-font-size-sm)", color: "var(--ahana-muted)" }}>Age / Sex</span>
+              <p style={{ fontWeight: "bold", margin: 0 }}>{record.demographics?.age} Yrs / {record.demographics?.sex}</p>
+            </div>
+            <div>
+              <span style={{ fontSize: "var(--ahana-font-size-sm)", color: "var(--ahana-muted)" }}>Height / Weight</span>
+              <p style={{ fontWeight: "bold", margin: 0 }}>{record.demographics?.height} / {record.demographics?.weight}</p>
+            </div>
+            <div>
+              <span style={{ fontSize: "var(--ahana-font-size-sm)", color: "var(--ahana-muted)" }}>Blood Group</span>
+              <p style={{ fontWeight: "bold", margin: 0, color: "var(--ahana-orange)" }}>{record.demographics?.blood_group}</p>
+            </div>
+            <div>
+              <span style={{ fontSize: "var(--ahana-font-size-sm)", color: "var(--ahana-muted)" }}>Living Unit</span>
+              <p style={{ fontWeight: "bold", margin: 0 }}>{record.demographics?.living_environment}</p>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "var(--ahana-space-6)" }}>
+            {/* Vitals */}
+            <div className="ahana-panel">
+              <h3 style={{ fontFamily: "var(--ahana-font-serif)", color: "var(--ahana-purple-dark)", borderBottom: "2px solid var(--ahana-orange)", paddingBottom: "4px", marginBottom: "12px" }}>
+                Current Vitals
+              </h3>
+              <dl style={{ display: "grid", gap: "8px", margin: 0 }}>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <dt style={{ color: "var(--ahana-muted)" }}>Blood Pressure</dt>
+                  <dd style={{ fontWeight: "bold" }}>{record.vitals?.blood_pressure}</dd>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <dt style={{ color: "var(--ahana-muted)" }}>Heart Rate</dt>
+                  <dd style={{ fontWeight: "bold" }}>{record.vitals?.heart_rate}</dd>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <dt style={{ color: "var(--ahana-muted)" }}>Oxygen Saturation (SpO2)</dt>
+                  <dd style={{ fontWeight: "bold" }}>{record.vitals?.spo2}</dd>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <dt style={{ color: "var(--ahana-muted)" }}>Body Temperature</dt>
+                  <dd style={{ fontWeight: "bold" }}>{record.vitals?.temperature}</dd>
+                </div>
+              </dl>
+            </div>
+
+            {/* Meds Plan */}
+            <div className="ahana-panel">
+              <h3 style={{ fontFamily: "var(--ahana-font-serif)", color: "var(--ahana-purple-dark)", borderBottom: "2px solid var(--ahana-orange)", paddingBottom: "4px", marginBottom: "12px" }}>
+                Active Medication Plan
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "8px" }}>
+                {record.meds_plan?.map((med: any, idx: number) => (
+                  <li key={idx} style={{ background: "var(--ahana-surface-soft)", padding: "8px 12px", borderRadius: "var(--ahana-radius-md)", borderLeft: "4px solid var(--ahana-purple)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontWeight: "bold" }}>
+                      <span>{med.name}</span>
+                      <span style={{ color: "var(--ahana-purple)" }}>{med.time}</span>
+                    </div>
+                    <p style={{ margin: "4px 0 0", fontSize: "12px", color: "var(--ahana-muted)" }}>{med.instructions}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Test Schedule */}
+            <div className="ahana-panel">
+              <h3 style={{ fontFamily: "var(--ahana-font-serif)", color: "var(--ahana-purple-dark)", borderBottom: "2px solid var(--ahana-orange)", paddingBottom: "4px", marginBottom: "12px" }}>
+                Upcoming Diagnostics & Labs
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "8px" }}>
+                {record.test_schedule?.map((test: any, idx: number) => (
+                  <li key={idx} style={{ background: "var(--ahana-surface-soft)", padding: "8px 12px", borderRadius: "var(--ahana-radius-md)", borderLeft: "4px solid var(--ahana-orange)" }}>
+                    <div style={{ fontWeight: "bold" }}>{test.name}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "var(--ahana-muted)", marginTop: "4px" }}>
+                      <span>📍 {test.location}</span>
+                      <span>📅 {test.date}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Appointments */}
+            <div className="ahana-panel">
+              <h3 style={{ fontFamily: "var(--ahana-font-serif)", color: "var(--ahana-purple-dark)", borderBottom: "2px solid var(--ahana-orange)", paddingBottom: "4px", marginBottom: "12px" }}>
+                Scheduled Appointments
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: "8px" }}>
+                {record.appointments?.map((app: any, idx: number) => (
+                  <li key={idx} style={{ background: "var(--ahana-surface-soft)", padding: "8px 12px", borderRadius: "var(--ahana-radius-md)", borderLeft: "4px solid var(--ahana-purple-dark)" }}>
+                    <div style={{ fontWeight: "bold" }}>{app.doctor}</div>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", color: "var(--ahana-muted)", marginTop: "4px" }}>
+                      <span>💬 {app.type}</span>
+                      <span>📅 {app.date}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </MemberShell>
     );
   }
