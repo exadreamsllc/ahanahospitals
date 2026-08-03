@@ -36,14 +36,6 @@ const PLACEHOLDER_SECTIONS = [
     slots: 6,
     shape: "tile" as const,
   },
-  {
-    id: "videos",
-    title: "Videos",
-    description:
-      "Recorded talks, interviews and awareness sessions will be collected here.",
-    slots: 3,
-    shape: "video" as const,
-  },
 ];
 
 export default async function FounderPage() {
@@ -148,6 +140,61 @@ export default async function FounderPage() {
             </ul>
           </section>
         ))}
+
+        {/* Founder Speech & YouTube Video Embed ------------------------- */}
+        <section className={styles.videoSection} aria-labelledby="speech-heading">
+          <SectionHeading
+            eyebrow="Message from our Founder"
+            title="You are in Good Hands"
+            id="speech-heading"
+          />
+
+          <div className={styles.videoWrapper}>
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="A Message of Reassurance from our Founder"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+
+          <div className={styles.speechContent}>
+            <h3 className={styles.speechTitle}>Message Transcript</h3>
+            <p>
+              &ldquo;At Ahana Hospitals, our commitment has always been to build a sanctuary of recovery, dignity, and healing. A hospital is not merely a structure of bricks and clinical equipment &mdash; it is a living community defined by the hands that care for you.
+            </p>
+            <p>
+              When you or your loved ones walk through our gates, I want you to know with absolute certainty: <strong>you are in good hands.</strong>&rdquo;
+            </p>
+
+            <ul className={styles.staffList}>
+              <li className={styles.staffItem}>
+                <span className={styles.staffRole}>1. Our Doctors & Psychiatrists</span>
+                Stand at the forefront of medical excellence, charting path-breaking clinical guidelines and evidence-based protocols to restore balance and clinical stability.
+              </li>
+              <li className={styles.staffItem}>
+                <span className={styles.staffRole}>2. Our Psychologists & Therapists</span>
+                Provide a deep, empathetic space for cognitive healing, helping you unpack trauma, navigate anxiety, and rebuild emotional resilience.
+              </li>
+              <li className={styles.staffItem}>
+                <span className={styles.staffRole}>3. Our Nurses & Care Providers</span>
+                Represent the heartbeat of Ahana, offering round-the-clock physical assistance, administering medications, and providing warm bedside comfort.
+              </li>
+              <li className={styles.staffItem}>
+                <span className={styles.staffRole}>4. Our Housekeeping & Kitchen Staff</span>
+                Work tirelessly behind the scenes to maintain a pristine, sanitized, and comfortable environment while serving nutritious, home-cooked meals.
+              </li>
+              <li className={styles.staffItem}>
+                <span className={styles.staffRole}>5. Our Security Team</span>
+                Maintain a peaceful, protected, and welcoming campus sanctuary 24/7, ensuring that you can focus entirely on your path to recovery.
+              </li>
+            </ul>
+
+            <p>
+              &ldquo;Together, we operate as one united family, dedicated to guiding you and your family back to a life of health, meaning, and belonging.&rdquo;
+            </p>
+          </div>
+        </section>
       </div>
     </MemberShell>
   );

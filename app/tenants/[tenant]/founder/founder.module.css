@@ -172,3 +172,72 @@
     max-width: 280px;
   }
 }
+
+/* Custom Founder Video & Speech Section */
+.videoSection {
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-xl);
+  padding: clamp(24px, 4vw, 48px);
+  box-shadow: var(--ahana-shadow-sm);
+  display: grid;
+  gap: var(--ahana-space-6);
+  margin-top: var(--ahana-space-4);
+}
+
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--ahana-radius-lg);
+  border: 1px solid var(--ahana-border);
+  box-shadow: var(--ahana-shadow-lift);
+}
+
+.videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.speechContent {
+  color: var(--ahana-text);
+  font-size: var(--ahana-font-size-base);
+  line-height: 1.8;
+}
+
+.speechTitle {
+  font-family: var(--ahana-font-serif);
+  color: var(--ahana-purple-dark);
+  font-size: var(--ahana-font-size-2xl);
+  margin: 0 0 var(--ahana-space-4);
+  border-bottom: 2px solid var(--ahana-orange);
+  padding-bottom: var(--ahana-space-2);
+  display: inline-block;
+}
+
+.staffList {
+  display: grid;
+  gap: var(--ahana-space-4);
+  margin: var(--ahana-space-6) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.staffItem {
+  background: var(--ahana-surface-soft);
+  padding: var(--ahana-space-4);
+  border-radius: var(--ahana-radius-md);
+  border-left: 4px solid var(--ahana-purple);
+}
+
+.staffRole {
+  font-weight: 700;
+  color: var(--ahana-purple-dark);
+  display: block;
+  margin-bottom: var(--ahana-space-1);
+}
