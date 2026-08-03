@@ -24,6 +24,11 @@ export async function proxy(request: NextRequest) {
     if (part && part !== "www") {
       subdomain = part;
     }
+  } else if (
+    hostname.includes("ahanahospitals.vercel.app") ||
+    hostname.includes("ahana-hospitals.vercel.app")
+  ) {
+    subdomain = "ahana";
   }
 
   // 1. Run Supabase session validation (refreshes tokens and handles cookie transfers)
