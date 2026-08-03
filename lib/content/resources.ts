@@ -29,9 +29,9 @@ export const RESOURCES: readonly Resource[] = [
     description:
       "Founder profile covering community mental-health contributions, rehabilitation work and recognition.",
     status: "available",
-    href: "/assets/brochures/dr-c-ramasubramanian-profile.pdf",
-    download: true,
-    meta: "PDF brochure",
+    href: "/resources/founder-profile",
+    download: false,
+    meta: "Interactive brochure",
   },
   {
     id: "365-days",

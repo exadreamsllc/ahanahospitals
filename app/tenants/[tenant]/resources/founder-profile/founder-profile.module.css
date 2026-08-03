@@ -1,0 +1,117 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--ahana-space-8);
+  margin-top: var(--ahana-space-6);
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ahana-space-6);
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ahana-space-4);
+  height: clamp(500px, 70vh, 800px);
+}
+
+.pdfFrame {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-xl);
+  box-shadow: var(--ahana-shadow-lift);
+}
+
+.backButton {
+  margin-bottom: var(--ahana-space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ahana-space-2);
+  color: var(--ahana-purple);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: var(--ahana-font-size-sm);
+}
+
+.backButton:hover {
+  color: var(--ahana-purple-dark);
+  text-decoration: underline;
+}
+
+.profileCard {
+  background: var(--ahana-white);
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-xl);
+  padding: var(--ahana-space-6);
+  box-shadow: var(--ahana-shadow-sm);
+}
+
+.cardTitle {
+  font-family: var(--ahana-font-serif);
+  color: var(--ahana-purple-dark);
+  font-size: var(--ahana-font-size-xl);
+  margin: 0 0 var(--ahana-space-3);
+  border-bottom: 2px solid var(--ahana-orange);
+  padding-bottom: var(--ahana-space-1);
+}
+
+.chaptersList {
+  display: grid;
+  gap: var(--ahana-space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.chapterItem {
+  padding: var(--ahana-space-3);
+  background: var(--ahana-surface-soft);
+  border-radius: var(--ahana-radius-md);
+  border-left: 4px solid var(--ahana-purple);
+}
+
+.chapterTitle {
+  font-weight: 700;
+  color: var(--ahana-purple-dark);
+  display: block;
+  font-size: var(--ahana-font-size-sm);
+  margin-bottom: 2px;
+}
+
+.chapterText {
+  font-size: var(--ahana-font-size-sm);
+  color: var(--ahana-muted);
+  margin: 0;
+}
+
+.mobileDownloadCard {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: var(--ahana-space-6);
+  }
+
+  .rightColumn {
+    display: none; /* Hide embedded frame on mobile/tablet */
+  }
+
+  .mobileDownloadCard {
+    display: block;
+    background: var(--ahana-lavender);
+    border: 1px solid var(--ahana-purple);
+    border-radius: var(--ahana-radius-lg);
+    padding: var(--ahana-space-5);
+    text-align: center;
+    color: var(--ahana-purple-dark);
+  }
+  
+  .mobileDownloadCard p {
+    margin: 0 0 var(--ahana-space-4);
+  }
+}
