@@ -241,3 +241,41 @@
   display: block;
   margin-bottom: var(--ahana-space-1);
 }
+
+.timestampGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--ahana-space-3);
+  margin: var(--ahana-space-6) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timestampLink {
+  display: flex;
+  align-items: center;
+  gap: var(--ahana-space-2);
+  background: var(--ahana-surface-soft);
+  border: 1px solid var(--ahana-border);
+  padding: var(--ahana-space-2) var(--ahana-space-3);
+  border-radius: var(--ahana-radius-md);
+  text-decoration: none;
+  color: var(--ahana-text);
+  font-size: var(--ahana-font-size-sm);
+  transition: all 0.2s;
+}
+
+.timestampLink:hover {
+  background: var(--ahana-lavender);
+  border-color: var(--ahana-purple);
+  color: var(--ahana-purple-dark);
+}
+
+.timestampBadge {
+  background: var(--ahana-purple);
+  color: var(--ahana-white);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
