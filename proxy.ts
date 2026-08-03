@@ -41,7 +41,8 @@ export async function proxy(request: NextRequest) {
       pathname.startsWith("/_next") ||
       pathname.startsWith("/api") ||
       pathname.includes(".") ||
-      pathname.startsWith("/auth/confirm")
+      pathname.startsWith("/auth/confirm") ||
+      pathname.startsWith("/saas")
     ) {
       return response;
     }
