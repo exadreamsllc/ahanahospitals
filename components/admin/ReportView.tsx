@@ -3,6 +3,8 @@
 import { useActionState, useState } from "react";
 import { updatePreferencesAction } from "@/lib/actions/profile";
 import { updateCallbackAction } from "@/lib/actions/contact";
+import { findPatientAction, createPatientAction } from "@/lib/actions/patients";
+import { PatientConsole } from "@/app/tenants/[tenant]/dashboard/PatientConsole";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { EMPTY_FORM_STATE } from "@/lib/validation/auth";
 import { CalendarView } from "./CalendarView";
@@ -42,7 +44,23 @@ export function ReportView({ callbacks, initialColumns }: ReportViewProps) {
   const [localCallbacks, setLocalCallbacks] = useState<CallbackRequest[]>(callbacks);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [activeTab, setActiveTab] = useState<"table" | "calendar">("table");
+  const [activeTab, setActiveTab] = useState<"table" | "calendar" | "patients">("table");
+
+  // Patient EMR Lookup State
+  const [patientSearchFirst, setPatientSearchFirst] = useState("");
+  const [patientSearchLast, setPatientSearchLast] = useState("");
+  const [patientSearchDob, setPatientSearchDob] = useState("");
+  const [isSearchingPatient, setIsSearchingPatient] = useState(false);
+  const [patientSearchError, setPatientSearchError] = useState("");
+  const [activePatient, setActivePatient] = useState<any>(null);
+  const [activePatientRecords, setActivePatientRecords] = useState<any[]>([]);
+
+  // Fallback Patient Onboarding Registration State
+  const [showCreatePatientForm, setShowCreatePatientForm] = useState(false);
+  const [newPatientGender, setNewPatientGender] = useState("Male");
+  const [newPatientPhone, setNewPatientPhone] = useState("");
+  const [isCreatingPatient, setIsCreatingPatient] = useState(false);
+  const [createPatientError, setCreatePatientError] = useState("");
   
   // Reschedule & Edit Modal State
   const [editingCallback, setEditingCallback] = useState<CallbackRequest | null>(null);
@@ -113,6 +131,58 @@ export function ReportView({ callbacks, initialColumns }: ReportViewProps) {
     }
   };
 
+  const handlePatientSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSearchingPatient(true);
+    setPatientSearchError("");
+    setShowCreatePatientForm(false);
+    setActivePatient(null);
+    setActivePatientRecords([]);
+
+    try {
+      const res = await findPatientAction(patientSearchFirst, patientSearchLast, patientSearchDob);
+      if (res.success && res.patient) {
+        setActivePatient(res.patient);
+        setActivePatientRecords(res.records || []);
+      } else {
+        setPatientSearchError(res.message || "Patient not found.");
+        setShowCreatePatientForm(true); // Auto-show onboarding register form if not found
+      }
+    } catch (err: any) {
+      setPatientSearchError(err.message || "An unexpected error occurred during patient search.");
+    } finally {
+      setIsSearchingPatient(false);
+    }
+  };
+
+  const handleCreatePatient = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsCreatingPatient(true);
+    setCreatePatientError("");
+
+    try {
+      const res = await createPatientAction(
+        patientSearchFirst,
+        patientSearchLast,
+        patientSearchDob,
+        newPatientGender,
+        newPatientPhone
+      );
+
+      if (res.success && res.patient) {
+        setActivePatient(res.patient);
+        setActivePatientRecords([]); // Brand new patient starts with 0 EMR records
+        setShowCreatePatientForm(false);
+      } else {
+        setCreatePatientError(res.message || "Failed to create patient profile.");
+      }
+    } catch (err: any) {
+      setCreatePatientError(err.message || "An unexpected error occurred during patient creation.");
+    } finally {
+      setIsCreatingPatient(false);
+    }
+  };
+
   // Filter callback requests client-side
   const filteredCallbacks = localCallbacks.filter((c) => {
     const matchesSearch =
@@ -160,6 +230,13 @@ export function ReportView({ callbacks, initialColumns }: ReportViewProps) {
         >
           📅 Clinical Calendar
         </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("patients")}
+          className={`tab-btn ${activeTab === "patients" ? "active" : ""}`}
+        >
+          🏥 Patient EMR Workspace
+        </button>
       </div>
 
       {activeTab === "calendar" ? (
@@ -177,6 +254,189 @@ export function ReportView({ callbacks, initialColumns }: ReportViewProps) {
             setLocalCallbacks((prev) => [newCb, ...prev]);
           }}
         />
+      ) : activeTab === "patients" ? (
+        <div className="patients-workspace">
+          {activePatient ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: "var(--ahana-surface-soft)", padding: "16px 24px", borderRadius: "12px", border: "1px solid var(--ahana-border)" }}>
+                <div>
+                  <h3 style={{ margin: 0, color: "var(--ahana-purple-dark)", fontFamily: "var(--ahana-font-serif)" }}>
+                    Active Patient Workspace: {activePatient.first_name} {activePatient.last_name}
+                  </h3>
+                  <p style={{ margin: "4px 0 0", fontSize: "13px", color: "var(--ahana-muted)" }}>
+                    EMR Database Ref ID: {activePatient.id}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActivePatient(null);
+                    setActivePatientRecords([]);
+                    setPatientSearchError("");
+                    setShowCreatePatientForm(false);
+                  }}
+                  className="ahana-button secondary"
+                >
+                  🔍 Search Another Patient
+                </button>
+              </div>
+
+              <PatientConsole
+                patient={activePatient}
+                records={activePatientRecords}
+                isWritable={true}
+                onRecordAdded={(newRec) => {
+                  setActivePatientRecords((prev) => [newRec, ...prev]);
+                }}
+              />
+            </div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: showCreatePatientForm ? "1fr 1fr" : "1fr", gap: "24px", maxWidth: showCreatePatientForm ? "1000px" : "600px", margin: "0 auto" }}>
+              {/* EMR Lookup Panel */}
+              <div className="config-section" style={{ padding: "32px", height: "fit-content" }}>
+                <h3 className="section-title" style={{ fontFamily: "var(--ahana-font-serif)", color: "var(--ahana-purple-dark)" }}>
+                  Search Patient EMR
+                </h3>
+                <p className="section-desc" style={{ marginBottom: "20px" }}>
+                  To lookup or edit a patient EMR file, enter their first name, last name, and date of birth exactly.
+                </p>
+
+                <form onSubmit={handlePatientSearch} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <div>
+                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>First Name</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Priya"
+                      value={patientSearchFirst}
+                      onChange={(e) => setPatientSearchFirst(e.target.value)}
+                      style={{ width: "100%", padding: "10px", border: "1px solid var(--ahana-border)", borderRadius: "6px" }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Last Name</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Dharshini"
+                      value={patientSearchLast}
+                      onChange={(e) => setPatientSearchLast(e.target.value)}
+                      style={{ width: "100%", padding: "10px", border: "1px solid var(--ahana-border)", borderRadius: "6px" }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Date of Birth (DOB)</label>
+                    <input
+                      type="date"
+                      required
+                      value={patientSearchDob}
+                      onChange={(e) => setPatientSearchDob(e.target.value)}
+                      style={{ width: "100%", padding: "10px", border: "1px solid var(--ahana-border)", borderRadius: "6px" }}
+                    />
+                  </div>
+
+                  {patientSearchError && (
+                    <div style={{ backgroundColor: "#FEF3C7", color: "#D97706", padding: "12px", borderRadius: "6px", fontSize: "13px", border: "1px solid #FCD34D" }}>
+                      ⚠️ {patientSearchError} (Onboarding registration form available on the right)
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isSearchingPatient}
+                    className="ahana-button primary"
+                    style={{ marginTop: "8px" }}
+                  >
+                    {isSearchingPatient ? "Searching Records..." : "🔍 Search Patient EMR"}
+                  </button>
+                </form>
+              </div>
+
+              {/* Onboard New Patient Fallback Panel */}
+              {showCreatePatientForm && (
+                <div className="config-section" style={{ padding: "32px", border: "1px solid var(--ahana-orange)", height: "fit-content" }}>
+                  <h3 className="section-title" style={{ fontFamily: "var(--ahana-font-serif)", color: "var(--ahana-orange)" }}>
+                    Onboard New Patient Profile
+                  </h3>
+                  <p className="section-desc" style={{ marginBottom: "20px" }}>
+                    Create a new EMR file for this patient in the database.
+                  </p>
+
+                  <form onSubmit={handleCreatePatient} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                      <div>
+                        <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>First Name</label>
+                        <input
+                          type="text"
+                          disabled
+                          value={patientSearchFirst}
+                          style={{ width: "100%", padding: "10px", border: "1px solid var(--ahana-border)", borderRadius: "6px", backgroundColor: "var(--ahana-surface-soft)" }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Last Name</label>
+                        <input
+                          type="text"
+                          disabled
+                          value={patientSearchLast}
+                          style={{ width: "100%", padding: "10px", border: "1px solid var(--ahana-border)", borderRadius: "6px", backgroundColor: "var(--ahana-surface-soft)" }}
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Date of Birth (DOB)</label>
+                      <input
+                        type="date"
+                        disabled
+                        value={patientSearchDob}
+                        style={{ width: "100%", padding: "10px", border: "1px solid var(--ahana-border)", borderRadius: "6px", backgroundColor: "var(--ahana-surface-soft)" }}
+                      />
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                      <div>
+                        <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Gender</label>
+                        <select
+                          value={newPatientGender}
+                          onChange={(e) => setNewPatientGender(e.target.value)}
+                          style={{ width: "100%", padding: "10px", border: "1px solid var(--ahana-border)", borderRadius: "6px", background: "white" }}
+                        >
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Phone Number</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 9876543210"
+                          value={newPatientPhone}
+                          onChange={(e) => setNewPatientPhone(e.target.value)}
+                          style={{ width: "100%", padding: "10px", border: "1px solid var(--ahana-border)", borderRadius: "6px" }}
+                        />
+                      </div>
+                    </div>
+
+                    {createPatientError && (
+                      <div style={{ backgroundColor: "#FEE2E2", color: "#DC2626", padding: "12px", borderRadius: "6px", fontSize: "13px" }}>
+                        ⚠️ {createPatientError}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isCreatingPatient}
+                      className="ahana-button primary"
+                      style={{ backgroundColor: "var(--ahana-orange)", border: 0, marginTop: "8px" }}
+                    >
+                      {isCreatingPatient ? "Creating EMR profile..." : "➕ Create EMR Patient Profile"}
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       ) : (
         <>
           {/* 1. Configuration Panel */}
