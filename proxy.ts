@@ -13,7 +13,13 @@ export async function proxy(request: NextRequest) {
   const hostname = request.headers.get("host") || "";
 
   // Approved domain mappings
-  const mainDomains = ["youmecareall.com", "localhost:3000", "youmecareall.localhost"];
+  const mainDomains = [
+    "youmecareall.com",
+    "xproevolve.com",
+    "localhost:3000",
+    "youmecareall.localhost",
+    "xproevolve.localhost"
+  ];
 
   let subdomain = "";
   const matchedDomain = mainDomains.find((domain) => hostname.endsWith(domain));

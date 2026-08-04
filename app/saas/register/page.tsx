@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, startTransition } from "react";
+import { useState, startTransition, useEffect } from "react";
 import Link from "next/link";
 import { provisionTenantAction } from "@/lib/actions/saas";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
@@ -19,6 +19,20 @@ export default function SaasRegisterPage() {
   const [isProvisioning, setIsProvisioning] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [provisionedSlug, setProvisionedSlug] = useState<string | null>(null);
+  const [hostSuffix, setHostSuffix] = useState("youmecareall.com");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const host = window.location.host;
+      if (host.includes("xproevolve.com")) {
+        setHostSuffix("xproevolve.com");
+      } else if (host.includes("youmecareall.com")) {
+        setHostSuffix("youmecareall.com");
+      } else {
+        setHostSuffix(host);
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,7 +109,7 @@ export default function SaasRegisterPage() {
                 <strong>Dynamic Domain Link:</strong>
               </p>
               <p style={{ color: "var(--ahana-purple)", fontWeight: "bold", fontSize: "14px" }}>
-                https://{provisionedSlug}.youmecareall.com/auth/login
+                https://{provisionedSlug}.{hostSuffix}/auth/login
               </p>
               <p style={{ fontSize: "12px", color: "var(--ahana-muted)", marginTop: "4px" }}>
                 (Testing Local Route: /tenants/{provisionedSlug}/auth/login)
@@ -154,7 +168,7 @@ export default function SaasRegisterPage() {
                       style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
                     />
                     <span style={{ backgroundColor: "var(--ahana-surface-soft)", border: "1px solid var(--ahana-border)", borderLeft: 0, padding: "10px 12px", borderTopRightRadius: "6px", borderBottomRightRadius: "6px", fontSize: "13px", color: "var(--ahana-muted)" }}>
-                      .youmecareall.com
+                      .{hostSuffix}
                     </span>
                   </div>
                 </div>
