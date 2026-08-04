@@ -52,3 +52,34 @@ export async function submitCallbackRequestAction(
     return formError("An unexpected error occurred. Please try again.", {}, values);
   }
 }
+
+export async function updateCallbackAction(
+  id: string,
+  fullName: string,
+  phoneNumber: string,
+  status: string,
+  preferredTime: string
+): Promise<{ success: boolean; message?: string }> {
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase
+      .from("callback_requests")
+      .update({
+        full_name: fullName,
+        phone_number: phoneNumber,
+        status: status,
+        preferred_time: preferredTime,
+      })
+      .eq("id", id);
+
+    if (error) {
+      console.error("Database error updating callback request:", error);
+      return { success: false, message: error.message };
+    }
+
+    return { success: true };
+  } catch (e: any) {
+    console.error("Error in updateCallbackAction:", e);
+    return { success: false, message: e.message };
+  }
+}
