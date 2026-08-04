@@ -2,110 +2,71 @@
 
 import { useState } from "react";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import {
+  updateCallbackAction,
+  createCallbackAction,
+  deleteCallbackAction,
+} from "@/lib/actions/contact";
 
-type CalendarEvent = {
+type CallbackRequest = {
   id: string;
-  title: string;
-  date: number; // Day of the month (August 2026)
-  creator: string;
-  assignee: string;
-  color: string;
-  time: string;
-  description: string;
+  full_name: string;
+  phone_number: string;
+  preferred_time: string;
+  contact_channel: string;
+  status: string;
+  created_at: string;
 };
 
-const INITIAL_EVENTS: CalendarEvent[] = [
-  {
-    id: "1",
-    title: "Morning Shift Triage Handover",
-    date: 10,
-    creator: "Staff (Nurse Lakshmi)",
-    assignee: "Staff (Nurse Lakshmi)",
-    color: "#8B5CF6", // Purple
-    time: "08:00 AM",
-    description: "Shift changeover reporting and incoming callback queue review.",
-  },
-  {
-    id: "2",
-    title: "Patient 4 EMR Triage Review",
-    date: 12,
-    creator: "Staff (Nurse Lakshmi)",
-    assignee: "Dr. Karthik (Psychiatrist)",
-    color: "#2563EB", // Blue
-    time: "10:30 AM",
-    description: "Triage call review of Patient 4 (Priya) with thyroid symptoms.",
-  },
-  {
-    id: "3",
-    title: "Weekly Ward Sanitization Audit",
-    date: 14,
-    creator: "Management (Meena)",
-    assignee: "Staff (Nurse Lakshmi)",
-    color: "#16A34A", // Green
-    time: "11:00 AM",
-    description: "Compliance safety audit of rehabilitation block C sanitation logs.",
-  },
-  {
-    id: "4",
-    title: "Cognitive Rehabilitation Planning",
-    date: 15,
-    creator: "Dr. Karthik (Psychiatrist)",
-    assignee: "Counselor Anand",
-    color: "#D97706", // Amber
-    time: "02:00 PM",
-    description: "Planning CBT schedules and milestone reports for adolescent patients.",
-  },
-  {
-    id: "5",
-    title: "Hospital Operations Alignment",
-    date: 18,
-    creator: "Management (Meena)",
-    assignee: "All Staff & Clinicians",
-    color: "#DC2626", // Red
-    time: "04:00 PM",
-    description: "Discussion on callback latencies, database triggers, and client onboarding.",
-  },
-];
+type CalendarViewProps = {
+  callbacks: CallbackRequest[];
+  onUpdateCallback: (cb: CallbackRequest) => void;
+  onDeleteCallback: (id: string) => void;
+  onCreateCallback: (cb: CallbackRequest) => void;
+};
 
-export function CalendarView() {
-  const [events, setEvents] = useState<CalendarEvent[]>(INITIAL_EVENTS);
+export function CalendarView({
+  callbacks,
+  onUpdateCallback,
+  onDeleteCallback,
+  onCreateCallback,
+}: CalendarViewProps) {
   const [roleFilter, setRoleFilter] = useState("All");
 
   // Modal / Editing states
-  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<CallbackRequest | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   
   // Form fields
   const [formTitle, setFormTitle] = useState("");
   const [formDate, setFormDate] = useState(1);
-  const [formTime, setFormTime] = useState("");
-  const [formCreator, setFormCreator] = useState("Staff");
-  const [formAssignee, setFormAssignee] = useState("");
-  const [formDescription, setFormDescription] = useState("");
+  const [formPhone, setFormPhone] = useState("");
+  const [formTime, setFormTime] = useState("morning");
+  const [formChannel, setFormChannel] = useState("whatsapp");
+  const [formStatus, setFormStatus] = useState("pending");
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
-  // Color mapping based on selected creator group
-  const getColorForCreator = (creatorPrefix: string) => {
-    switch (creatorPrefix) {
-      case "Staff":
-        return "#8B5CF6"; // Purple
-      case "Doctor":
-      case "Provider":
+  // Color mapping based on status
+  const getStatusColor = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case "pending":
+      case "new":
+        return "#D97706"; // Amber
+      case "contacted":
         return "#2563EB"; // Blue
-      case "Management":
+      case "resolved":
         return "#16A34A"; // Green
       default:
-        return "#D97706"; // Amber
+        return "#6B7280"; // Gray
     }
   };
 
-  // Filter events based on selected Creator Role
-  const filteredEvents = events.filter((e) => {
+  // Filter callback events based on filter dropdown selection
+  const filteredCallbacks = callbacks.filter((c) => {
     if (roleFilter === "All") return true;
-    if (roleFilter === "Staff") return e.creator.startsWith("Staff");
-    if (roleFilter === "Provider") return e.creator.startsWith("Doctor") || e.creator.startsWith("Dr.");
-    if (roleFilter === "Management") return e.creator.startsWith("Management");
-    return true;
+    return c.status?.toLowerCase() === roleFilter.toLowerCase();
   });
 
   // Calendar parameters for August 2026
@@ -114,7 +75,7 @@ export function CalendarView() {
   const totalDays = 31;
   
   // Build calendar day cells
-  const dayCells = [];
+  const dayCells: (number | null)[] = [];
   for (let i = 0; i < startingDayOfWeek; i++) {
     dayCells.push(null);
   }
@@ -122,32 +83,36 @@ export function CalendarView() {
     dayCells.push(d);
   }
 
-  const handleOpenEvent = (event: CalendarEvent) => {
-    setSelectedEvent(event);
+  const handleOpenEvent = (cb: CallbackRequest) => {
+    setSelectedEvent(cb);
     setIsEditing(false);
     setIsCreating(false);
+    setSaveError("");
     
     // Populate form
-    setFormTitle(event.title);
-    setFormDate(event.date);
-    setFormTime(event.time);
-    setFormCreator(event.creator.startsWith("Staff") ? "Staff" : event.creator.startsWith("Management") ? "Management" : "Doctor");
-    setFormAssignee(event.assignee);
-    setFormDescription(event.description);
+    setFormTitle(cb.full_name);
+    // Extract date number from created_at ISO string
+    const dateNum = new Date(cb.created_at).getDate() || 1;
+    setFormDate(dateNum);
+    setFormPhone(cb.phone_number || "");
+    setFormTime(cb.preferred_time || "morning");
+    setFormChannel(cb.contact_channel || "whatsapp");
+    setFormStatus(cb.status || "pending");
   };
 
   const handleOpenCreate = (day: number) => {
     setSelectedEvent(null);
     setIsEditing(false);
     setIsCreating(true);
+    setSaveError("");
     
     // Clear / Prepopulate form
     setFormTitle("");
     setFormDate(day);
-    setFormTime("09:00 AM");
-    setFormCreator("Doctor");
-    setFormAssignee("Staff (Nurse Lakshmi)");
-    setFormDescription("");
+    setFormPhone("");
+    setFormTime("morning");
+    setFormChannel("whatsapp");
+    setFormStatus("pending");
   };
 
   const handleCloseModal = () => {
@@ -156,47 +121,82 @@ export function CalendarView() {
     setIsCreating(false);
   };
 
-  const handleSaveChanges = (e: React.FormEvent) => {
+  const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isCreating) {
-      // Append a new event
-      const newEvent: CalendarEvent = {
-        id: Math.random().toString(),
-        title: formTitle,
-        date: Number(formDate),
-        creator: formCreator === "Staff" ? "Staff (Nurse Lakshmi)" : formCreator === "Management" ? "Management (Meena)" : "Dr. Karthik (Psychiatrist)",
-        assignee: formAssignee,
-        color: getColorForCreator(formCreator),
-        time: formTime,
-        description: formDescription,
-      };
-      setEvents(prev => [...prev, newEvent]);
-    } else if (selectedEvent) {
-      // Update existing event
-      setEvents(prev =>
-        prev.map(item =>
-          item.id === selectedEvent.id
-            ? {
-                ...item,
-                title: formTitle,
-                date: Number(formDate),
-                creator: formCreator === "Staff" ? "Staff (Nurse Lakshmi)" : formCreator === "Management" ? "Management (Meena)" : "Dr. Karthik (Psychiatrist)",
-                assignee: formAssignee,
-                color: getColorForCreator(formCreator),
-                time: formTime,
-                description: formDescription,
-              }
-            : item
-        )
-      );
+    setIsSaving(true);
+    setSaveError("");
+
+    // Generate ISO timestamp string for the selected day in August 2026
+    const paddedDay = String(formDate).padStart(2, "0");
+    const dateStr = `2026-08-${paddedDay}T12:00:00.000Z`;
+
+    try {
+      if (isCreating) {
+        // Call create action
+        const res = await createCallbackAction(
+          formTitle,
+          formPhone,
+          formTime,
+          formChannel,
+          dateStr
+        );
+
+        if (res.success && res.data) {
+          onCreateCallback(res.data);
+          handleCloseModal();
+        } else {
+          setSaveError(res.message || "Failed to create callback meetup.");
+        }
+      } else if (selectedEvent) {
+        // Call update action
+        const res = await updateCallbackAction(
+          selectedEvent.id,
+          formTitle,
+          formPhone,
+          formStatus,
+          formTime,
+          dateStr
+        );
+
+        if (res.success) {
+          onUpdateCallback({
+            ...selectedEvent,
+            full_name: formTitle,
+            phone_number: formPhone,
+            status: formStatus,
+            preferred_time: formTime,
+            created_at: dateStr,
+          });
+          handleCloseModal();
+        } else {
+          setSaveError(res.message || "Failed to save updates.");
+        }
+      }
+    } catch (err: any) {
+      setSaveError(err.message || "An unexpected error occurred.");
+    } finally {
+      setIsSaving(false);
     }
-    handleCloseModal();
   };
 
-  const handleDeleteEvent = () => {
+  const handleDeleteEvent = async () => {
     if (!selectedEvent) return;
-    setEvents(prev => prev.filter(item => item.id !== selectedEvent.id));
-    handleCloseModal();
+    setIsSaving(true);
+    setSaveError("");
+
+    try {
+      const res = await deleteCallbackAction(selectedEvent.id);
+      if (res.success) {
+        onDeleteCallback(selectedEvent.id);
+        handleCloseModal();
+      } else {
+        setSaveError(res.message || "Failed to delete callback meetup.");
+      }
+    } catch (err: any) {
+      setSaveError(err.message || "An unexpected error occurred.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -205,27 +205,27 @@ export function CalendarView() {
       <div className="calendar-header-row no-print">
         <div style={{ display: "flex", gap: "16px", alignItems: "center", flexWrap: "wrap" }}>
           <div>
-            <label style={{ marginRight: "12px", fontWeight: "bold", fontSize: "14px" }}>Filter by Creator:</label>
+            <label style={{ marginRight: "12px", fontWeight: "bold", fontSize: "14px" }}>Filter by Status:</label>
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
               className="filter-select"
             >
-              <option value="All">All Roles</option>
-              <option value="Staff">Staff / Nurses Only</option>
-              <option value="Provider">Doctors / Clinicians Only</option>
-              <option value="Management">Management Only</option>
+              <option value="All">All Statuses</option>
+              <option value="pending">Pending Only</option>
+              <option value="contacted">Contacted Only</option>
+              <option value="resolved">Resolved Only</option>
             </select>
           </div>
           <span style={{ fontSize: "12px", color: "var(--ahana-muted)" }}>
-            💡 Tip: Click any blank cell grid box to schedule a new meetup event directly.
+            💡 Click any grid box cell to schedule a new triage meetup date directly.
           </span>
         </div>
 
         <div className="legend">
-          <span className="legend-item"><span className="dot" style={{ backgroundColor: "#8B5CF6" }} /> Staff</span>
-          <span className="legend-item"><span className="dot" style={{ backgroundColor: "#2563EB" }} /> Doctors</span>
-          <span className="legend-item"><span className="dot" style={{ backgroundColor: "#16A34A" }} /> Management</span>
+          <span className="legend-item"><span className="dot" style={{ backgroundColor: "#D97706" }} /> Pending</span>
+          <span className="legend-item"><span className="dot" style={{ backgroundColor: "#2563EB" }} /> Contacted</span>
+          <span className="legend-item"><span className="dot" style={{ backgroundColor: "#16A34A" }} /> Resolved</span>
         </div>
       </div>
 
@@ -245,7 +245,13 @@ export function CalendarView() {
 
         {/* Days cells */}
         {dayCells.map((day, idx) => {
-          const dayEvents = day ? filteredEvents.filter((e) => e.date === day) : [];
+          // Filter events falling on this specific day of month in August 2026
+          const dayEvents = day
+            ? filteredCallbacks.filter((c) => {
+                const d = new Date(c.created_at);
+                return d.getFullYear() === 2026 && d.getMonth() === 7 && d.getDate() === day;
+              })
+            : [];
 
           return (
             <div
@@ -263,10 +269,12 @@ export function CalendarView() {
                         type="button"
                         onClick={() => handleOpenEvent(event)}
                         className="event-badge"
-                        style={{ borderLeftColor: event.color }}
+                        style={{ borderLeftColor: getStatusColor(event.status) }}
                       >
-                        <span className="event-time">{event.time}</span>
-                        <span className="event-title">{event.title}</span>
+                        <span className="event-time" style={{ textTransform: "capitalize" }}>
+                          {event.preferred_time}
+                        </span>
+                        <span className="event-title">{event.full_name}</span>
                       </button>
                     ))}
                   </div>
@@ -277,35 +285,41 @@ export function CalendarView() {
         })}
       </div>
 
-      {/* Interactive Modal for viewing, editing or creating */}
+      {/* Interactive Edit / Create Dialog Modal */}
       {(selectedEvent || isCreating) && (
         <div className="modal-backdrop" onClick={handleCloseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h4 style={{ margin: 0, color: "var(--ahana-purple-dark)" }}>
-                {isCreating ? "Schedule New Meetup" : isEditing ? "Reschedule / Edit Event" : "Meetup Details"}
+                {isCreating ? "Schedule Triage Meetup" : isEditing ? "Reschedule / Edit Meetup" : "Meetup Details"}
               </h4>
               <button type="button" onClick={handleCloseModal} className="close-btn">×</button>
             </div>
             
             {isEditing || isCreating ? (
               <form onSubmit={handleSaveChanges} className="modal-body">
+                {saveError && (
+                  <div style={{ backgroundColor: "#FEE2E2", color: "#DC2626", padding: "10px", borderRadius: "6px", marginBottom: "16px", fontSize: "13px" }}>
+                    ⚠️ {saveError}
+                  </div>
+                )}
+
                 <div style={{ display: "grid", gap: "16px" }}>
                   <div>
-                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Event / Meetup Title</label>
+                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Patient / Inquirer Name</label>
                     <input
                       type="text"
                       value={formTitle}
                       onChange={(e) => setFormTitle(e.target.value)}
                       required
-                      placeholder="e.g. Triage call or audit"
+                      placeholder="e.g. Priyadharshini R"
                       style={{ width: "100%", padding: "8px", border: "1px solid var(--ahana-border)", borderRadius: "6px" }}
                     />
                   </div>
 
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                     <div>
-                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Day of Month (August)</label>
+                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Day of Month (August 2026)</label>
                       <input
                         type="number"
                         min="1"
@@ -317,13 +331,13 @@ export function CalendarView() {
                       />
                     </div>
                     <div>
-                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Scheduled Time</label>
+                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Contact Phone</label>
                       <input
                         type="text"
-                        value={formTime}
-                        onChange={(e) => setFormTime(e.target.value)}
+                        value={formPhone}
+                        onChange={(e) => setFormPhone(e.target.value)}
                         required
-                        placeholder="e.g. 10:30 AM"
+                        placeholder="e.g. 9876543210"
                         style={{ width: "100%", padding: "8px", border: "1px solid var(--ahana-border)", borderRadius: "6px" }}
                       />
                     </div>
@@ -331,38 +345,41 @@ export function CalendarView() {
 
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                     <div>
-                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Creator Category</label>
+                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Preferred Time</label>
                       <select
-                        value={formCreator}
-                        onChange={(e) => setFormCreator(e.target.value)}
+                        value={formTime}
+                        onChange={(e) => setFormTime(e.target.value)}
                         style={{ width: "100%", padding: "8px", border: "1px solid var(--ahana-border)", borderRadius: "6px", background: "white" }}
                       >
-                        <option value="Staff">Staff (Purple)</option>
-                        <option value="Doctor">Doctors (Blue)</option>
-                        <option value="Management">Management (Green)</option>
+                        <option value="morning">Morning</option>
+                        <option value="afternoon">Afternoon</option>
+                        <option value="evening">Evening</option>
                       </select>
                     </div>
                     <div>
-                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Assigned Colleague</label>
-                      <input
-                        type="text"
-                        value={formAssignee}
-                        onChange={(e) => setFormAssignee(e.target.value)}
-                        required
-                        placeholder="e.g. Lakshmi or Anand"
-                        style={{ width: "100%", padding: "8px", border: "1px solid var(--ahana-border)", borderRadius: "6px" }}
-                      />
+                      <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Contact Channel</label>
+                      <select
+                        value={formChannel}
+                        onChange={(e) => setFormChannel(e.target.value)}
+                        style={{ width: "100%", padding: "8px", border: "1px solid var(--ahana-border)", borderRadius: "6px", background: "white" }}
+                      >
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="phone">Regular Call</option>
+                      </select>
                     </div>
                   </div>
 
                   <div>
-                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Description</label>
-                    <textarea
-                      value={formDescription}
-                      onChange={(e) => setFormDescription(e.target.value)}
-                      rows={3}
-                      style={{ width: "100%", padding: "8px", border: "1px solid var(--ahana-border)", borderRadius: "6px" }}
-                    />
+                    <label style={{ display: "block", fontWeight: "bold", marginBottom: "6px", fontSize: "13px" }}>Triage Status</label>
+                    <select
+                      value={formStatus}
+                      onChange={(e) => setFormStatus(e.target.value)}
+                      style={{ width: "100%", padding: "8px", border: "1px solid var(--ahana-border)", borderRadius: "6px", background: "white" }}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="contacted">Contacted</option>
+                      <option value="resolved">Resolved</option>
+                    </select>
                   </div>
                 </div>
 
@@ -372,22 +389,24 @@ export function CalendarView() {
                       <button
                         type="button"
                         onClick={handleDeleteEvent}
+                        disabled={isSaving}
                         style={{ padding: "8px 16px", background: "#FEE2E2", color: "#DC2626", border: "1px solid #FCA5A5", borderRadius: "6px", cursor: "pointer", fontWeight: "bold" }}
                       >
-                        🗑️ Delete Event
+                        {isSaving ? "Deleting..." : "🗑️ Delete Meetup"}
                       </button>
                     )}
                   </div>
                   <div style={{ display: "flex", gap: "12px" }}>
                     <button
                       type="button"
+                      disabled={isSaving}
                       onClick={() => isCreating ? handleCloseModal() : setIsEditing(false)}
                       style={{ padding: "8px 16px", border: "1px solid var(--ahana-border)", background: "transparent", borderRadius: "6px", cursor: "pointer" }}
                     >
                       Cancel
                     </button>
-                    <PrimaryButton type="submit">
-                      {isCreating ? "Schedule Event" : "Save Changes"}
+                    <PrimaryButton type="submit" disabled={isSaving}>
+                      {isSaving ? "Saving..." : isCreating ? "Schedule" : "Save Changes"}
                     </PrimaryButton>
                   </div>
                 </div>
@@ -395,11 +414,25 @@ export function CalendarView() {
             ) : (
               selectedEvent && (
                 <div className="modal-body">
-                  <p><strong>Scheduled Time:</strong> August {selectedEvent.date}, 2026 at {selectedEvent.time}</p>
-                  <p><strong>Created By:</strong> {selectedEvent.creator}</p>
-                  <p><strong>Assigned To:</strong> {selectedEvent.assignee}</p>
-                  <div style={{ borderLeft: `4px solid ${selectedEvent.color}`, paddingLeft: "12px", margin: "16px 0", color: "var(--ahana-muted)", fontSize: "14px" }}>
-                    {selectedEvent.description}
+                  <p><strong>Patient Name:</strong> {selectedEvent.full_name}</p>
+                  <p><strong>Contact Phone:</strong> {selectedEvent.phone_number || "N/A"}</p>
+                  <p><strong>Preferred Meetup Window:</strong> <span style={{ textTransform: "capitalize" }}>{selectedEvent.preferred_time}</span> via <span style={{ textTransform: "capitalize" }}>{selectedEvent.contact_channel}</span></p>
+                  
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", margin: "16px 0" }}>
+                    <strong>Triage Status:</strong>
+                    <span
+                      style={{
+                        backgroundColor: getStatusColor(selectedEvent.status),
+                        color: "white",
+                        padding: "2px 8px",
+                        borderRadius: "4px",
+                        fontSize: "12px",
+                        fontWeight: "bold",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {selectedEvent.status}
+                    </span>
                   </div>
 
                   <div style={{ display: "flex", justifyContent: "flex-end", gap: "12px", marginTop: "24px" }}>
@@ -411,7 +444,7 @@ export function CalendarView() {
                       Close
                     </button>
                     <PrimaryButton onClick={() => setIsEditing(true)}>
-                      ✏️ Reschedule / Edit Event
+                      ✏️ Reschedule / Edit Meetup
                     </PrimaryButton>
                   </div>
                 </div>

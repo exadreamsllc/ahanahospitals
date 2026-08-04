@@ -163,7 +163,20 @@ export function ReportView({ callbacks, initialColumns }: ReportViewProps) {
       </div>
 
       {activeTab === "calendar" ? (
-        <CalendarView />
+        <CalendarView
+          callbacks={localCallbacks}
+          onUpdateCallback={(updatedCb) => {
+            setLocalCallbacks((prev) =>
+              prev.map((c) => (c.id === updatedCb.id ? updatedCb : c))
+            );
+          }}
+          onDeleteCallback={(deletedId) => {
+            setLocalCallbacks((prev) => prev.filter((c) => c.id !== deletedId));
+          }}
+          onCreateCallback={(newCb) => {
+            setLocalCallbacks((prev) => [newCb, ...prev]);
+          }}
+        />
       ) : (
         <>
           {/* 1. Configuration Panel */}
