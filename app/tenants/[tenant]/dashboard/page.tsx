@@ -11,6 +11,7 @@ import { NO_MEDICAL_RECORDS_NOTICE, ROUTES } from "@/lib/constants/site";
 import { FOUNDER } from "@/lib/content/founder";
 import { createClient } from "@/utils/supabase/server";
 import { ReportView } from "@/components/admin/ReportView";
+import { PatientConsole } from "./PatientConsole";
 import styles from "./dashboard.module.css";
 
 export const metadata: Metadata = {
@@ -81,7 +82,42 @@ export default async function DashboardPage() {
     );
   }
 
-  // Render dummy EMR console for patients if mock record exists
+  // 1. Relational Database Patient Record Lookup
+  if (!isElevated) {
+    const nameParts = greetingName.trim().split(/\s+/);
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(" ") || "";
+
+    const { data: dbPatient } = await supabase
+      .from("patients")
+      .select("*")
+      .eq("first_name", firstName)
+      .eq("last_name", lastName)
+      .limit(1)
+      .maybeSingle();
+
+    if (dbPatient) {
+      const { data: dbRecords } = await supabase
+        .from("patient_records")
+        .select("*")
+        .eq("patient_id", dbPatient.id)
+        .order("recorded_at", { ascending: false });
+
+      return (
+        <MemberShell
+          title={`Patient Portal — Welcome, ${greetingName}`}
+          description="Your medical workspace — view clinical progress logs, medication charts, diagnostic lab test results, and shift handovers."
+        >
+          <PatientConsole
+            patient={dbPatient as any}
+            records={(dbRecords || []) as any}
+          />
+        </MemberShell>
+      );
+    }
+  }
+
+  // 2. Legacy preferences fallback
   if (preferences?.patient_record) {
     const record = preferences.patient_record;
     return (
