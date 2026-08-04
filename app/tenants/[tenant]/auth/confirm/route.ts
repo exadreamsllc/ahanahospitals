@@ -43,7 +43,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(errorUrl);
   }
 
-  const response = NextResponse.redirect(new URL(next, request.url));
+  const pathname = request.nextUrl.pathname;
+  const pathParts = pathname.split("/");
+  const tenant = pathParts[2] || "";
+  const tenantNext = tenant ? `/tenants/${tenant}${next}` : next;
+
+  const response = NextResponse.redirect(new URL(tenantNext, request.url));
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

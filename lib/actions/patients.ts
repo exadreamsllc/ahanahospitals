@@ -16,10 +16,17 @@ export async function findPatientAction(
       return { success: false, message: "Unauthorized. Please log in." };
     }
 
-    const tenantId = user.user_metadata?.tenant_id;
-    if (!tenantId) {
-      return { success: false, message: "No tenant context found for user." };
+    // Fetch profile tenant context
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("tenant_id")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError || !profile?.tenant_id) {
+      return { success: false, message: "No tenant context found for user profile." };
     }
+    const tenantId = profile.tenant_id;
 
     // Lookup patient
     const { data: patient, error: patientError } = await supabase
@@ -71,10 +78,17 @@ export async function createPatientAction(
       return { success: false, message: "Unauthorized." };
     }
 
-    const tenantId = user.user_metadata?.tenant_id;
-    if (!tenantId) {
+    // Fetch profile tenant context
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("tenant_id")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError || !profile?.tenant_id) {
       return { success: false, message: "No tenant context found." };
     }
+    const tenantId = profile.tenant_id;
 
     // Check if duplicate exists
     const { data: existing } = await supabase
