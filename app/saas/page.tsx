@@ -121,9 +121,13 @@ export default function SaasLandingPage() {
           </p>
           <PortalFinder />
           <div className={styles.heroActions}>
-            <PrimaryButton type="button" fullWidth={false}>
+            <Link
+              href="/saas/register"
+              className="ahana-button primary"
+              style={{ textDecoration: "none" }}
+            >
               Get Started Free
-            </PrimaryButton>
+            </Link>
             <SecondaryLink href="#features" appearance="button">
               See Features
             </SecondaryLink>
@@ -182,12 +186,13 @@ export default function SaasLandingPage() {
                     <li key={idx}>{feature}</li>
                   ))}
                 </ul>
-                <PrimaryButton
-                  type="button"
-                  variant={tier.popular ? "primary" : "secondary"}
+                <Link
+                  href="/saas/register"
+                  className={tier.popular ? "ahana-button primary" : "ahana-button secondary"}
+                  style={{ textDecoration: "none", display: "block", textAlign: "center", width: "100%" }}
                 >
                   {tier.cta}
-                </PrimaryButton>
+                </Link>
               </div>
             ))}
           </div>
