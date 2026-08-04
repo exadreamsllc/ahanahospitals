@@ -80,11 +80,23 @@ export async function updatePreferencesAction(
     return formError("You must be logged in to update preferences.");
   }
 
-  // Read the checkbox columns
+  // Fetch existing preferences
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("preferences")
+    .eq("id", user.id)
+    .single();
+
+  const existingPref = (profile?.preferences as any) || {};
+
+  // Read checkable preferences
   const reportColumns = formData.getAll("reportColumns").map((c) => c.toString());
+  const dashboardWidgets = formData.getAll("dashboardWidgets").map((c) => c.toString());
 
   const preferences = {
-    report_columns: reportColumns,
+    ...existingPref,
+    ...(formData.has("hasReportColumns") ? { report_columns: reportColumns } : {}),
+    ...(formData.has("hasDashboardWidgets") ? { dashboard_widgets: dashboardWidgets } : {}),
   };
 
   const { error } = await supabase

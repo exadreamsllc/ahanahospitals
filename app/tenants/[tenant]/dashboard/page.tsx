@@ -12,6 +12,7 @@ import { FOUNDER } from "@/lib/content/founder";
 import { createClient } from "@/utils/supabase/server";
 import { ReportView } from "@/components/admin/ReportView";
 import { PatientConsole } from "./PatientConsole";
+import { DashboardConfigurator } from "@/components/dashboard/DashboardConfigurator";
 import styles from "./dashboard.module.css";
 
 export const metadata: Metadata = {
@@ -61,6 +62,7 @@ export default async function DashboardPage() {
 
   const preferences = profile?.preferences as any;
   const reportColumns = preferences?.report_columns || ["email", "phone", "status"];
+  const dashboardWidgets = preferences?.dashboard_widgets || ["video", "explore", "account", "coming_soon"];
 
   if (isElevated) {
     // Fetch callback requests
@@ -237,117 +239,128 @@ export default async function DashboardPage() {
       description="Your member area — the Ahana archive, the resources you save, and your account preferences."
     >
       <div className={styles.layout}>
+        {/* PWA Mobile Dashboard Layout Preferences Configurator */}
+        <DashboardConfigurator initialWidgets={dashboardWidgets} />
+
         {/* Featured Video ---------------------------------------------- */}
-        <section aria-labelledby="video-heading">
-          <h2 id="video-heading" className={styles.sectionTitle}>
-            Featured Video
-          </h2>
+        {dashboardWidgets.includes("video") && (
+          <section aria-labelledby="video-heading">
+            <h2 id="video-heading" className={styles.sectionTitle}>
+              Featured Video
+            </h2>
 
-          <div className={styles.videoWrapper}>
-            <iframe
-              src="https://www.youtube.com/embed/WMjIftab4_U"
-              title="Ahana Hospitals - 365 Days of Meaningful Living"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </div>
+            <div className={styles.videoWrapper}>
+              <iframe
+                src="https://www.youtube.com/embed/WMjIftab4_U"
+                title="Ahana Hospitals - 365 Days of Meaningful Living"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
 
-          <p className={styles.sectionNote}>
-            Watch the video presentation of our &ldquo;365 Days of Meaningful Living&rdquo; community shared-meal program.
-          </p>
-        </section>
+            <p className={styles.sectionNote}>
+              Watch the video presentation of our &ldquo;365 Days of Meaningful Living&rdquo; community shared-meal program.
+            </p>
+          </section>
+        )}
 
         {/* Quick links -------------------------------------------------- */}
-        <section aria-labelledby="explore-heading">
-          <h2 id="explore-heading" className={styles.sectionTitle}>
-            Explore
-          </h2>
+        {dashboardWidgets.includes("explore") && (
+          <section aria-labelledby="explore-heading">
+            <h2 id="explore-heading" className={styles.sectionTitle}>
+              Explore
+            </h2>
 
-          <ul className={`ahana-list-reset ${styles.cardGrid}`}>
-            <li className={styles.card}>
-              <span className={styles.badge}>My Library</span>
-              <h3 className={styles.cardTitle}>Your saved resources</h3>
-              <p className={styles.cardText}>
-                Everything you keep will collect here, ready to open again
-                later.
-              </p>
-              <SecondaryLink href={ROUTES.library} appearance="button">
-                Open My Library
-              </SecondaryLink>
-            </li>
+            <ul className={`ahana-list-reset ${styles.cardGrid}`}>
+              <li className={styles.card}>
+                <span className={styles.badge}>My Library</span>
+                <h3 className={styles.cardTitle}>Your saved resources</h3>
+                <p className={styles.cardText}>
+                  Everything you keep will collect here, ready to open again
+                  later.
+                </p>
+                <SecondaryLink href={ROUTES.library} appearance="button">
+                  Open My Library
+                </SecondaryLink>
+              </li>
 
-            <li className={`${styles.card} ${styles.founderCard}`}>
-              <span className={styles.badge}>Founder Legacy</span>
-              <h3 className={styles.cardTitle}>{FOUNDER.name}</h3>
-              <p className={styles.cardText}>
-                The belief that shaped Ahana — biography, timeline and archive.
-              </p>
-              <SecondaryLink href={ROUTES.founder} appearance="button">
-                Read the story
-              </SecondaryLink>
-            </li>
+              <li className={`${styles.card} ${styles.founderCard}`}>
+                <span className={styles.badge}>Founder Legacy</span>
+                <h3 className={styles.cardTitle}>{FOUNDER.name}</h3>
+                <p className={styles.cardText}>
+                  The belief that shaped Ahana — biography, timeline and archive.
+                </p>
+                <SecondaryLink href={ROUTES.founder} appearance="button">
+                  Read the story
+                </SecondaryLink>
+              </li>
 
-            <li className={styles.card}>
-              <span className={styles.badge}>Resources</span>
-              <h3 className={styles.cardTitle}>Knowledge Centre</h3>
-              <p className={styles.cardText}>
-                Brochures, publications, research, videos and community
-                programmes.
-              </p>
-              <SecondaryLink href={ROUTES.resources} appearance="button">
-                Browse resources
-              </SecondaryLink>
-            </li>
-          </ul>
-        </section>
+              <li className={styles.card}>
+                <span className={styles.badge}>Resources</span>
+                <h3 className={styles.cardTitle}>Knowledge Centre</h3>
+                <p className={styles.cardText}>
+                  Brochures, publications, research, videos and community
+                  programmes.
+                </p>
+                <SecondaryLink href={ROUTES.resources} appearance="button">
+                  Browse resources
+                </SecondaryLink>
+              </li>
+            </ul>
+          </section>
+        )}
 
         {/* Account ------------------------------------------------------ */}
-        <section className={styles.account} aria-labelledby="account-heading">
-          <h2 id="account-heading" className={styles.sectionTitle}>
-            Your account
-          </h2>
+        {dashboardWidgets.includes("account") && (
+          <section className={styles.account} aria-labelledby="account-heading">
+            <h2 id="account-heading" className={styles.sectionTitle}>
+              Your account
+            </h2>
 
-          <dl className={`ahana-definition-list ${styles.accountList}`}>
-            <div>
-              <dt>Email address</dt>
-              <dd>{account.email ?? "Not available"}</dd>
-            </div>
-            <div>
-              <dt>Preferred language</dt>
-              <dd>{account.preferredLanguage}</dd>
-            </div>
-            <div>
-              <dt>Account type</dt>
-              <dd>{account.accountType}</dd>
-            </div>
-          </dl>
+            <dl className={`ahana-definition-list ${styles.accountList}`}>
+              <div>
+                <dt>Email address</dt>
+                <dd>{account.email ?? "Not available"}</dd>
+              </div>
+              <div>
+                <dt>Preferred language</dt>
+                <dd>{account.preferredLanguage}</dd>
+              </div>
+              <div>
+                <dt>Account type</dt>
+                <dd>{account.accountType}</dd>
+              </div>
+            </dl>
 
-          <div className={styles.accountActions}>
-            <SecondaryLink href={ROUTES.profile}>View full profile</SecondaryLink>
-            <form action={ROUTES.signOut} method="post">
-              <PrimaryButton type="submit" variant="secondary">
-                Sign out
-              </PrimaryButton>
-            </form>
-          </div>
-        </section>
+            <div className={styles.accountActions}>
+              <SecondaryLink href={ROUTES.profile}>View full profile</SecondaryLink>
+              <form action={ROUTES.signOut} method="post">
+                <PrimaryButton type="submit" variant="secondary">
+                  Sign out
+                </PrimaryButton>
+              </form>
+            </div>
+          </section>
+        )}
 
         {/* Coming soon -------------------------------------------------- */}
-        <section aria-labelledby="soon-heading">
-          <h2 id="soon-heading" className={styles.sectionTitle}>
-            Coming soon
-          </h2>
+        {dashboardWidgets.includes("coming_soon") && (
+          <section aria-labelledby="soon-heading">
+            <h2 id="soon-heading" className={styles.sectionTitle}>
+              Coming soon
+            </h2>
 
-          <ul className={`ahana-list-reset ${styles.soonGrid}`}>
-            {COMING_SOON.map((item) => (
-              <li key={item.title} className={styles.soonCard}>
-                <h3 className={styles.soonTitle}>{item.title}</h3>
-                <p className={styles.soonText}>{item.description}</p>
-                <span className={styles.soonBadge}>In development</span>
-              </li>
-            ))}
-          </ul>
-        </section>
+            <ul className={`ahana-list-reset ${styles.soonGrid}`}>
+              {COMING_SOON.map((item) => (
+                <li key={item.title} className={styles.soonCard}>
+                  <h3 className={styles.soonTitle}>{item.title}</h3>
+                  <p className={styles.soonText}>{item.description}</p>
+                  <span className={styles.soonBadge}>In development</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <AlertMessage variant="info" title="No medical records here">
           <p>{NO_MEDICAL_RECORDS_NOTICE}</p>
