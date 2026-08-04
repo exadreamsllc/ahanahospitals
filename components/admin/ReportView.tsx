@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import { updatePreferencesAction } from "@/lib/actions/profile";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { EMPTY_FORM_STATE } from "@/lib/validation/auth";
+import { CalendarView } from "./CalendarView";
 
 type CallbackRequest = {
   id: string;
@@ -31,6 +32,7 @@ export function ReportView({ callbacks, initialColumns }: ReportViewProps) {
   const [columns, setColumns] = useState<string[]>(initialColumns);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [activeTab, setActiveTab] = useState<"table" | "calendar">("table");
 
   const [state, formAction] = useActionState(
     updatePreferencesAction,
@@ -68,82 +70,106 @@ export function ReportView({ callbacks, initialColumns }: ReportViewProps) {
 
   return (
     <div className="report-container">
-      {/* 1. Configuration Panel */}
-      <section className="config-section no-print">
-        <h3 className="section-title">Customize Dashboard Report Columns</h3>
-        <p className="section-desc">
-          Mandatory fields (**Name** & **Inquiry Date**) are always included. Choose which optional columns to display in your active session.
-        </p>
-
-        <form action={formAction} className="config-form">
-          <div className="checkbox-group">
-            {/* Mandatory placeholders */}
-            <label className="checkbox-label disabled">
-              <input type="checkbox" checked disabled />
-              <span>Full Name (Mandatory)</span>
-            </label>
-            <label className="checkbox-label disabled">
-              <input type="checkbox" checked disabled />
-              <span>Inquiry Date (Mandatory)</span>
-            </label>
-
-            {/* Optional checkboxes */}
-            {ALL_OPTIONAL_COLUMNS.map((col) => (
-              <label key={col.value} className="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="reportColumns"
-                  value={col.value}
-                  checked={columns.includes(col.value)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setColumns([...columns, col.value]);
-                    } else {
-                      setColumns(columns.filter((c) => c !== col.value));
-                    }
-                  }}
-                />
-                <span>{col.label}</span>
-              </label>
-            ))}
-          </div>
-
-          <div className="form-actions">
-            <PrimaryButton type="submit" fullWidth={false}>
-              Save Column Preferences
-            </PrimaryButton>
-            <button type="button" onClick={handlePrint} className="print-btn">
-              🖨️ Print Custom Report
-            </button>
-          </div>
-
-          {state.message && (
-            <p className="success-msg">{state.message}</p>
-          )}
-        </form>
-      </section>
-
-      {/* 2. Search & Filter Bar */}
-      <div className="filter-bar no-print">
-        <input
-          type="text"
-          placeholder="Search by name, email or phone..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="search-input"
-        />
-
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="filter-select"
+      {/* Tab Switcher */}
+      <div className="tab-switcher no-print">
+        <button
+          type="button"
+          onClick={() => setActiveTab("table")}
+          className={`tab-btn ${activeTab === "table" ? "active" : ""}`}
         >
-          <option value="All">All Statuses</option>
-          <option value="New">New</option>
-          <option value="Contacted">Contacted</option>
-          <option value="Resolved">Resolved</option>
-        </select>
+          📋 Inquiry Reports
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("calendar")}
+          className={`tab-btn ${activeTab === "calendar" ? "active" : ""}`}
+        >
+          📅 Clinical Calendar
+        </button>
       </div>
+
+      {activeTab === "calendar" ? (
+        <CalendarView />
+      ) : (
+        <>
+          {/* 1. Configuration Panel */}
+          <section className="config-section no-print">
+            <h3 className="section-title">Customize Dashboard Report Columns</h3>
+            <p className="section-desc">
+              Mandatory fields (**Name** & **Inquiry Date**) are always included. Choose which optional columns to display in your active session.
+            </p>
+
+            <form action={formAction} className="config-form">
+              <div className="checkbox-group">
+                {/* Mandatory placeholders */}
+                <label className="checkbox-label disabled">
+                  <input type="checkbox" checked disabled />
+                  <span>Full Name (Mandatory)</span>
+                </label>
+                <label className="checkbox-label disabled">
+                  <input type="checkbox" checked disabled />
+                  <span>Inquiry Date (Mandatory)</span>
+                </label>
+
+                {/* Optional checkboxes */}
+                {ALL_OPTIONAL_COLUMNS.map((col) => (
+                  <label key={col.value} className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      name="reportColumns"
+                      value={col.value}
+                      checked={columns.includes(col.value)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setColumns([...columns, col.value]);
+                        } else {
+                          setColumns(columns.filter((c) => c !== col.value));
+                        }
+                      }}
+                    />
+                    <span>{col.label}</span>
+                  </label>
+                ))}
+              </div>
+
+              <div className="form-actions">
+                <PrimaryButton type="submit" fullWidth={false}>
+                  Save Column Preferences
+                </PrimaryButton>
+                <button type="button" onClick={handlePrint} className="print-btn">
+                  🖨️ Print Custom Report
+                </button>
+              </div>
+
+              {state.message && (
+                <p className="success-msg">{state.message}</p>
+              )}
+            </form>
+          </section>
+
+          {/* 2. Search & Filter Bar */}
+          <div className="filter-bar no-print">
+            <input
+              type="text"
+              placeholder="Search by name, email or phone..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="search-input"
+            />
+
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="filter-select"
+            >
+              <option value="All">All Statuses</option>
+              <option value="New">New</option>
+              <option value="Contacted">Contacted</option>
+              <option value="Resolved">Resolved</option>
+            </select>
+          </div>
+        </>
+      )}
 
       {/* 3. Output Table */}
       <div className="table-responsive">
@@ -331,6 +357,36 @@ export function ReportView({ callbacks, initialColumns }: ReportViewProps) {
 
         .text-center {
           text-align: center;
+        }
+
+        .tab-switcher {
+          display: flex;
+          gap: var(--ahana-space-2);
+          border-bottom: 2px solid var(--ahana-border);
+          padding-bottom: 8px;
+        }
+
+        .tab-btn {
+          border: 0;
+          background: transparent;
+          color: var(--ahana-muted);
+          font-weight: 700;
+          font-size: var(--ahana-font-size-base);
+          padding: 8px 16px;
+          cursor: pointer;
+          border-radius: var(--ahana-radius-md);
+          transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+          background-color: var(--ahana-surface-soft);
+          color: var(--ahana-purple-dark);
+        }
+
+        .tab-btn.active {
+          color: var(--ahana-purple-dark);
+          background-color: var(--ahana-lavender);
+          box-shadow: inset 0 -2px 0 var(--ahana-purple);
         }
 
         /* Physical Page-Break Printing Styles */
