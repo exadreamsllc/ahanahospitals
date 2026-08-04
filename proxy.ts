@@ -14,9 +14,11 @@ export async function proxy(request: NextRequest) {
 
   // Approved domain mappings
   const mainDomains = [
+    "youmecare.health",
     "youmecareall.com",
     "xproevolve.com",
     "localhost:3000",
+    "youmecare.localhost",
     "youmecareall.localhost",
     "xproevolve.localhost"
   ];

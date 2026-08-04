@@ -55,7 +55,7 @@ const SUBSCRIPTIONS = [
     name: "Starter (Clinic)",
     price: "$49",
     features: [
-      "Shared subdomain (clinic.youmecareall.com)",
+      "Shared subdomain (clinic.youmecare.health)",
       "Standard Patient Library (up to 10 files)",
       "Intake contact forms",
       "Email support (24h response)",

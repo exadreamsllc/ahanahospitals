@@ -19,12 +19,14 @@ export default function SaasRegisterPage() {
   const [isProvisioning, setIsProvisioning] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [provisionedSlug, setProvisionedSlug] = useState<string | null>(null);
-  const [hostSuffix, setHostSuffix] = useState("youmecareall.com");
+  const [hostSuffix, setHostSuffix] = useState("youmecare.health");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const host = window.location.host;
-      if (host.includes("xproevolve.com")) {
+      if (host.includes("youmecare.health")) {
+        setHostSuffix("youmecare.health");
+      } else if (host.includes("xproevolve.com")) {
         setHostSuffix("xproevolve.com");
       } else if (host.includes("youmecareall.com")) {
         setHostSuffix("youmecareall.com");
