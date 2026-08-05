@@ -9,9 +9,9 @@ import { CallbackForm } from "./CallbackForm";
 import styles from "./lets-talk.module.css";
 
 export const metadata: Metadata = {
-  title: "Let's Talk",
+  title: "Experience The Exceptional Care With The Finest Hospitality",
   description:
-    "Start a confidential conversation with the Ahana Hospitals team.",
+    "Reaching out is a sign of strength. Here is how to start a conversation with the Ahana team.",
 };
 
 const CHANNELS = [
@@ -84,8 +84,8 @@ export default async function LetsTalkPage() {
 
   return (
     <MemberShell
-      title="Let's Talk"
-      description="Reaching out is a sign of strength. Here is how to start a conversation with us."
+      title="Experience The Exceptional Care With The Finest Hospitality"
+      description="Reaching out is a sign of strength. Here is how to start a conversation with the Ahana team."
       isAuthenticated={Boolean(user)}
     >
       <div className={styles.stack}>

@@ -29,27 +29,87 @@
   display: none;
 }
 
-.heroTitle {
-  font-family: var(--ahana-font-sans);
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 800;
-  line-height: 1.2;
+.founderTitle {
+  font-family: var(--ahana-font-serif);
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  font-weight: 700;
   color: #ffffff;
-  margin-bottom: var(--ahana-space-6);
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  margin: 0;
 }
 
-.imageWrapper {
-  width: 100%;
+.founderSubtitle {
+  font-size: var(--ahana-font-size-base);
+  color: #f3e8ff;
+  margin: var(--ahana-space-1) 0 var(--ahana-space-6);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.videoTabs {
   display: flex;
-  justify-content: center;
+  gap: var(--ahana-space-2);
+  margin-bottom: var(--ahana-space-4);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px;
+  border-radius: var(--ahana-radius-lg);
+  align-self: flex-start;
 }
 
-.heroImage {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+.tabBtn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  padding: var(--ahana-space-2) var(--ahana-space-4);
+  font-size: var(--ahana-font-size-sm);
+  font-weight: 600;
+  border-radius: var(--ahana-radius-md);
+  cursor: pointer;
+  transition: all 120ms ease-in-out;
+}
+
+.tabBtn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.activeTab {
+  background: #ffffff;
+  color: #791b75;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.activeTab:hover {
+  background: #ffffff;
+  color: #791b75;
+}
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  border-radius: var(--ahana-radius-xl);
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: var(--ahana-space-4);
+}
+
+.iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.founderMessage {
+  font-size: var(--ahana-font-size-sm);
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  font-style: italic;
 }
 
 .formContainer {
