@@ -44,8 +44,8 @@
 
 /* Floating Action Trigger Button */
 .chatTrigger {
-  width: 64px;
-  height: 64px;
+  width: 128px;
+  height: 128px;
   border-radius: 50%;
   background: var(--ahana-purple);
   border: 4px solid white;
@@ -98,7 +98,7 @@
 /* Expandable Chat Console */
 .chatConsole {
   position: absolute;
-  bottom: 80px;
+  bottom: 144px;
   right: 0;
   width: 380px;
   height: 520px;

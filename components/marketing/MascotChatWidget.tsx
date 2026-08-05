@@ -105,7 +105,7 @@ export function MascotChatWidget() {
             src="/assets/mascot.jpg"
             alt="Uskabuska Mascot avatar"
             fill
-            sizes="64px"
+            sizes="128px"
             className={styles.avatarImage}
             priority
           />
