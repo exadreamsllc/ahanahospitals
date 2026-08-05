@@ -44,14 +44,30 @@ export async function proxy(request: NextRequest) {
   // 1. Run Supabase session validation (refreshes tokens and handles cookie transfers)
   const response = await updateSession(request);
 
-  // 2. Dynamic path-based routing for /LSHC/[tenant]/...
-  if (pathname.startsWith("/LSHC/")) {
-    const segments = pathname.split("/");
-    const tenantSegment = segments[2] || "";
-    const tenantSlug = tenantSegment.toLowerCase().replace(".com", "");
+  // 2. Dynamic path-based routing for /LSHC/[tenant]/... or /[tenant.com]/...
+  const segments = pathname.split("/");
+  const firstSegment = segments[1] || "";
+  
+  if (pathname.startsWith("/LSHC/") || firstSegment.endsWith(".com")) {
+    let tenantSegment = "";
+    let remainingPathIndex = 3;
+    
+    if (pathname.startsWith("/LSHC/")) {
+      tenantSegment = segments[2] || "";
+      remainingPathIndex = 3;
+    } else {
+      tenantSegment = segments[1] || "";
+      remainingPathIndex = 2;
+    }
+    
+    let tenantSlug = tenantSegment.toLowerCase().replace(".com", "");
+    // Map custom client slugs like 'ahanahospitals' to the DB tenant record 'ahana'
+    if (tenantSlug === "ahanahospitals" || tenantSlug === "ahanahospital") {
+      tenantSlug = "ahana";
+    }
     
     if (tenantSlug) {
-      const remainingPath = "/" + segments.slice(3).join("/");
+      const remainingPath = "/" + segments.slice(remainingPathIndex).join("/");
       
       // Exclude static assets from rewriting
       if (

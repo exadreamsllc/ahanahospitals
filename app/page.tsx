@@ -151,7 +151,7 @@ export default function RootPage() {
               </p>
             </div>
             <Link 
-              href="/LSHC/Ahana.com/auth/login"
+              href="/ahanahospitals.com/auth/login"
               style={{
                 display: "block",
                 textAlign: "center",

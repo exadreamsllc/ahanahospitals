@@ -153,7 +153,7 @@ export default function DoTheNeedsPage() {
           </Link>
           
           <Link 
-            href="/LSHC/Ahana.com/auth/login"
+            href="/ahanahospitals.com/auth/login"
             style={{
               background: "linear-gradient(135deg, #7c3aed, #6d28d9)",
               color: "#ffffff",
@@ -218,7 +218,7 @@ export default function DoTheNeedsPage() {
               "If there is a patient and a doctor, why do we need so many middlemen? I want to find out — and this platform is my first move."
             </p>
           </div>
-          <Link href="/LSHC/Ahana.com/auth/login" style={{
+          <Link href="/ahanahospitals.com/auth/login" style={{
             background: "rgba(255, 255, 255, 0.05)",
             border: "1px solid rgba(255, 255, 255, 0.1)",
             padding: "10px 20px",
@@ -516,7 +516,7 @@ export default function DoTheNeedsPage() {
                   Neuropsychiatric rehabilitation portal, EMR records tracker, and active daily therapy planner.
                 </p>
               </div>
-              <Link href="/LSHC/Ahana.com/auth/login" style={{
+              <Link href="/ahanahospitals.com/auth/login" style={{
                 textAlign: "center", background: "linear-gradient(135deg, #7c3aed, #6d28d9)", color: "#ffffff",
                 padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: "600",
                 textDecoration: "none", boxShadow: "0 4px 12px rgba(124, 58, 237, 0.2)"
