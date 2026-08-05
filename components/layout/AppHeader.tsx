@@ -33,18 +33,15 @@ export function AppHeader({ isAuthenticated = false, nav }: AppHeaderProps) {
         <Link href={ROUTES.home} className={styles.brand}>
           <Image
             src="/assets/logo.webp"
-            alt="Ahana Hospitals Logo"
-            width={40}
-            height={40}
+            alt="Ahana Hospitals"
+            width={150}
+            height={41}
             className={styles.logo}
             priority
           />
-          <div className={styles.brandText}>
-            <span className={styles.brandName}>{SITE_NAME}</span>
-            <span className={styles.brandTagline}>
-              Mental Health &amp; Rehabilitation
-            </span>
-          </div>
+          <span className="ahana-visually-hidden">
+            {SITE_NAME} - Mental Health &amp; Rehabilitation
+          </span>
         </Link>
 
         <nav className={styles.nav} aria-label="Primary">
