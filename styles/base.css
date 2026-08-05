@@ -89,18 +89,19 @@ svg {
   left: var(--ahana-space-4);
   top: -100px;
   z-index: 100;
-  background: var(--ahana-purple);
-  color: var(--ahana-white);
+  background: #7c3aed;
+  color: #ffffff;
   padding: var(--ahana-space-3) var(--ahana-space-5);
   border-radius: var(--ahana-radius-md);
   font-weight: 700;
   text-decoration: none;
   transition: top 120ms ease-in;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .ahana-skip-link:focus-visible {
   top: var(--ahana-space-4);
-  color: var(--ahana-white);
+  color: #ffffff;
 }
 
 .ahana-container {

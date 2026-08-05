@@ -20,7 +20,7 @@
 
 .tagline {
   margin: 0;
-  color: var(--ahana-lavender);
+  color: var(--ahana-muted);
   max-width: 52ch;
 }
 
@@ -48,14 +48,14 @@
 
 .link:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--ahana-purple-dark), 0 0 0 6px var(--ahana-orange);
+  box-shadow: var(--ahana-focus-ring);
   border-radius: var(--ahana-radius-sm);
 }
 
 .boundary {
   border-top: 1px solid rgba(233, 224, 247, 0.25);
   padding-top: var(--ahana-space-5);
-  color: var(--ahana-lavender);
+  color: var(--ahana-muted);
   font-size: var(--ahana-font-size-sm);
   max-width: 76ch;
   margin: 0;
@@ -63,6 +63,6 @@
 
 .copyright {
   margin: 0;
-  color: var(--ahana-lavender);
+  color: var(--ahana-muted);
   font-size: var(--ahana-font-size-sm);
 }
