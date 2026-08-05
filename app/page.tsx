@@ -470,6 +470,128 @@ export default function DoTheNeedsPage() {
           </div>
         </section>
 
+        {/* Platform Ecosystem: Active Modules */}
+        <section id="ecosystem" style={{ marginBottom: "80px", borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "60px" }}>
+          <div style={{ textAlign: "center", marginBottom: "40px" }}>
+            <span style={{ fontSize: "11px", fontWeight: "bold", color: "#a78bfa", textTransform: "uppercase" }}>
+              ✦ Platform Ecosystem ✦
+            </span>
+            <h2 style={{ fontSize: "32px", fontWeight: 800, marginTop: "10px" }}>Active Service Modules</h2>
+            <p style={{ color: "#94a3b8", fontSize: "14px", marginTop: "10px" }}>
+              Tailored applications branching out to support healthcare, wellness, and personal growth.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "24px" }}>
+            
+            {/* Health Module */}
+            <div style={{
+              background: "rgba(255, 255, 255, 0.02)",
+              border: "1px solid rgba(255, 255, 255, 0.06)",
+              borderRadius: "16px",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}>
+              <div>
+                <span style={{ fontSize: "24px" }}>🏥</span>
+                <h4 style={{ fontSize: "16px", color: "#f8fafc", margin: "12px 0 6px" }}>Health (YouMeCare)</h4>
+                <p style={{ fontSize: "12.5px", color: "#94a3b8", lineHeight: 1.5, marginBottom: "20px" }}>
+                  Centralized multitenant SaaS onboarding portal to register new clinics and find existing medical portals.
+                </p>
+              </div>
+              <Link href="/saas" style={{
+                textAlign: "center", background: "rgba(139, 92, 246, 0.12)", color: "#a78bfa",
+                border: "1px solid rgba(139, 92, 246, 0.3)", padding: "10px", borderRadius: "8px",
+                fontSize: "13px", fontWeight: "600", textDecoration: "none"
+              }}>
+                Launch SaaS Stack
+              </Link>
+            </div>
+
+            {/* Fitness Module */}
+            <div style={{
+              background: "linear-gradient(145deg, rgba(139, 92, 246, 0.05), rgba(15, 10, 30, 0.4))",
+              border: "1px solid rgba(139, 92, 246, 0.2)",
+              borderRadius: "16px",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}>
+              <div>
+                <span style={{ fontSize: "24px" }}>🧘</span>
+                <h4 style={{ fontSize: "16px", color: "#f8fafc", margin: "12px 0 6px" }}>Fitness (Ahana Rehab)</h4>
+                <p style={{ fontSize: "12.5px", color: "#94a3b8", lineHeight: 1.5, marginBottom: "20px" }}>
+                  Neuropsychiatric rehabilitation portal, EMR records tracker, and active daily therapy planner.
+                </p>
+              </div>
+              <Link href="/tenants/ahana/auth/login" style={{
+                textAlign: "center", background: "linear-gradient(135deg, #7c3aed, #6d28d9)", color: "#ffffff",
+                padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: "600",
+                textDecoration: "none", boxShadow: "0 4px 12px rgba(124, 58, 237, 0.2)"
+              }}>
+                Launch Ahana Portal
+              </Link>
+            </div>
+
+            {/* Quiz Module */}
+            <div style={{
+              background: "rgba(255, 255, 255, 0.02)",
+              border: "1px solid rgba(255, 255, 255, 0.06)",
+              borderRadius: "16px",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between"
+            }}>
+              <div>
+                <span style={{ fontSize: "24px" }}>🧠</span>
+                <h4 style={{ fontSize: "16px", color: "#f8fafc", margin: "12px 0 6px" }}>Quiz (MindGym)</h4>
+                <p style={{ fontSize: "12.5px", color: "#94a3b8", lineHeight: 1.5, marginBottom: "20px" }}>
+                  Interactive mental-fitness and cognitive assessment games designed to track working memory.
+                </p>
+              </div>
+              <Link href="/quiz" style={{
+                textAlign: "center", background: "rgba(255, 255, 255, 0.05)", border: "1px solid rgba(255, 255, 255, 0.1)",
+                color: "#ffffff", padding: "10px", borderRadius: "8px", fontSize: "13px", fontWeight: "600",
+                textDecoration: "none"
+              }}>
+                Start MindGym Quiz
+              </Link>
+            </div>
+
+            {/* Sports Module */}
+            <div style={{
+              background: "rgba(255, 255, 255, 0.02)",
+              border: "1px solid rgba(255, 255, 255, 0.06)",
+              borderRadius: "16px",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              opacity: 0.5
+            }}>
+              <div>
+                <span style={{ fontSize: "24px" }}>⚽</span>
+                <h4 style={{ fontSize: "16px", color: "#f8fafc", margin: "12px 0 6px" }}>Sports & Play</h4>
+                <p style={{ fontSize: "12.5px", color: "#94a3b8", lineHeight: 1.5, marginBottom: "20px" }}>
+                  Recreational scheduling and activity coordination modules.
+                </p>
+              </div>
+              <button disabled style={{
+                textAlign: "center", background: "rgba(255, 255, 255, 0.02)", color: "#94a3b8",
+                border: "none", padding: "10px", borderRadius: "8px", fontSize: "13px",
+                fontWeight: "600", cursor: "not-allowed"
+              }}>
+                Coming Soon
+              </button>
+            </div>
+
+          </div>
+        </section>
+
         {/* How It Works Section */}
         <section id="how-it-works" style={{ marginBottom: "80px", borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "60px" }}>
           <div style={{ textAlign: "center", marginBottom: "40px" }}>
