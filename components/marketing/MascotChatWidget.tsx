@@ -23,7 +23,7 @@ export function MascotChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "Hello! I am Asha, your Ahana Hospitals wellness guide. How can I support you today? Feel free to ask about our clinical care pathways or rehabilitation services.",
+      text: "Hello! I am Uskabuska, your Ahana Hospitals wellness guide. How can I support you today? Feel free to ask about our clinical care pathways or rehabilitation services.",
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     },
   ]);
@@ -75,7 +75,7 @@ export function MascotChatWidget() {
       {/* Tooltip Alert */}
       {showTooltip && !isOpen && (
         <div className={styles.tooltip} role="alert">
-          <p>Hi! I'm Asha. Click here to chat! 👋</p>
+          <p>Hi! I'm Uskabuska. Click here to chat! 👋</p>
           <button
             type="button"
             className={styles.tooltipClose}
@@ -103,7 +103,7 @@ export function MascotChatWidget() {
         <div className={styles.avatarWrapper}>
           <Image
             src="/assets/mascot.jpg"
-            alt="Asha Mascot avatar"
+            alt="Uskabuska Mascot avatar"
             fill
             sizes="64px"
             className={styles.avatarImage}
@@ -121,14 +121,14 @@ export function MascotChatWidget() {
               <div className={styles.headerAvatar}>
                 <Image
                   src="/assets/mascot.jpg"
-                  alt="Asha Avatar"
+                  alt="Uskabuska Avatar"
                   width={40}
                   height={40}
                   className={styles.headerAvatarImg}
                 />
               </div>
               <div>
-                <h3 id="chat-heading" className={styles.mascotName}>Asha</h3>
+                <h3 id="chat-heading" className={styles.mascotName}>Uskabuska</h3>
                 <span className={styles.statusIndicator}>● Online Wellness Guide</span>
               </div>
             </div>
@@ -186,7 +186,7 @@ export function MascotChatWidget() {
           >
             <input
               type="text"
-              placeholder="Ask Asha a question..."
+              placeholder="Ask Uskabuska a question..."
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className={styles.chatInput}

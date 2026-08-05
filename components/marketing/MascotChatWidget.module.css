@@ -58,15 +58,18 @@
   padding: 0;
   overflow: hidden;
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+  animation: uskabuskaWalkAndSpin 12s ease-in-out infinite;
 }
 
 .chatTrigger:hover {
+  animation-play-state: paused;
   transform: scale(1.08);
   box-shadow: 0 14px 30px rgba(121, 27, 117, 0.35);
 }
 
 .activeTrigger {
-  transform: rotate(90deg) scale(0.95);
+  animation: none !important;
+  transform: scale(0.95) !important;
   background: var(--ahana-purple-dark);
 }
 
@@ -337,6 +340,48 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes uskabuskaWalkAndSpin {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  5% {
+    transform: translateX(-15px) translateY(-5px) rotate(-6deg);
+  }
+  10% {
+    transform: translateX(-30px) translateY(0) rotate(0deg);
+  }
+  15% {
+    transform: translateX(-45px) translateY(-5px) rotate(6deg);
+  }
+  20% {
+    transform: translateX(-60px) translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-60px) translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateX(-45px) translateY(-5px) rotate(-6deg);
+  }
+  35% {
+    transform: translateX(-30px) translateY(0) rotate(0deg);
+  }
+  40% {
+    transform: translateX(-15px) translateY(-5px) rotate(6deg);
+  }
+  45% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  60% {
+    transform: translateX(0) translateY(0) rotate(360deg);
+  }
+  100% {
+    transform: translateX(0) translateY(0) rotate(360deg);
   }
 }
 
