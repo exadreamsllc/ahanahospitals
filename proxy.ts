@@ -14,10 +14,12 @@ export async function proxy(request: NextRequest) {
 
   // Approved domain mappings
   const mainDomains = [
+    "dotheneeds.com",
     "youmecare.health",
     "youmecareall.com",
     "xproevolve.com",
     "localhost:3000",
+    "dotheneeds.localhost",
     "youmecare.localhost",
     "youmecareall.localhost",
     "xproevolve.localhost"
