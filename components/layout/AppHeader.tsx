@@ -34,8 +34,8 @@ export function AppHeader({ isAuthenticated = false, nav }: AppHeaderProps) {
           <Image
             src="/assets/logo.webp"
             alt="Ahana Hospitals"
-            width={220}
-            height={60}
+            width={440}
+            height={120}
             className={styles.logo}
             priority
           />
