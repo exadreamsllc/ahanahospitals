@@ -44,7 +44,36 @@ export async function proxy(request: NextRequest) {
   // 1. Run Supabase session validation (refreshes tokens and handles cookie transfers)
   const response = await updateSession(request);
 
-  // 2. Multitenant routing for subdomains
+  // 2. Dynamic path-based routing for /LSHC/[tenant]/...
+  if (pathname.startsWith("/LSHC/")) {
+    const segments = pathname.split("/");
+    const tenantSegment = segments[2] || "";
+    const tenantSlug = tenantSegment.toLowerCase().replace(".com", "");
+    
+    if (tenantSlug) {
+      const remainingPath = "/" + segments.slice(3).join("/");
+      
+      // Exclude static assets from rewriting
+      if (
+        remainingPath.startsWith("/_next") ||
+        remainingPath.startsWith("/api") ||
+        remainingPath.includes(".")
+      ) {
+        return response;
+      }
+      
+      const tenantUrl = request.nextUrl.clone();
+      tenantUrl.pathname = `/tenants/${tenantSlug}${remainingPath === "/" ? "" : remainingPath}`;
+      
+      const rewriteResponse = NextResponse.rewrite(tenantUrl);
+      response.cookies.getAll().forEach((cookie) => {
+        rewriteResponse.cookies.set(cookie);
+      });
+      return rewriteResponse;
+    }
+  }
+
+  // 3. Multitenant routing for subdomains
   if (subdomain) {
     // Exclude static assets, Next internals, icons, and auth confirmations
     if (
@@ -63,18 +92,6 @@ export async function proxy(request: NextRequest) {
 
     const rewriteResponse = NextResponse.rewrite(tenantUrl);
     // Propagate refreshed Supabase tokens from session handler onto rewrite response
-    response.cookies.getAll().forEach((cookie) => {
-      rewriteResponse.cookies.set(cookie);
-    });
-    return rewriteResponse;
-  }
-
-  // 3. Main domain: rewrite root page "/" to "/saas" landing page
-  if (pathname === "/") {
-    const saasUrl = request.nextUrl.clone();
-    saasUrl.pathname = "/saas";
-    
-    const rewriteResponse = NextResponse.rewrite(saasUrl);
     response.cookies.getAll().forEach((cookie) => {
       rewriteResponse.cookies.set(cookie);
     });
