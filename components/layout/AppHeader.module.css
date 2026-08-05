@@ -15,10 +15,23 @@
 
 .brand {
   display: inline-flex;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ahana-space-3);
   text-decoration: none;
   border-radius: var(--ahana-radius-sm);
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logo {
+  border-radius: 50%; /* Make the logo circular for premium look */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  object-fit: cover;
 }
 
 .brand:focus-visible {

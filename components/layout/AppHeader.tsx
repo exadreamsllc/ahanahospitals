@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { SecondaryLink } from "@/components/ui/SecondaryLink";
 import {
@@ -30,10 +31,20 @@ export function AppHeader({ isAuthenticated = false, nav }: AppHeaderProps) {
     <header className={styles.header}>
       <div className={`ahana-container ${styles.inner}`}>
         <Link href={ROUTES.home} className={styles.brand}>
-          <span className={styles.brandName}>{SITE_NAME}</span>
-          <span className={styles.brandTagline}>
-            Mental Health &amp; Rehabilitation
-          </span>
+          <Image
+            src="/assets/logo.webp"
+            alt="Ahana Hospitals Logo"
+            width={40}
+            height={40}
+            className={styles.logo}
+            priority
+          />
+          <div className={styles.brandText}>
+            <span className={styles.brandName}>{SITE_NAME}</span>
+            <span className={styles.brandTagline}>
+              Mental Health &amp; Rehabilitation
+            </span>
+          </div>
         </Link>
 
         <nav className={styles.nav} aria-label="Primary">
