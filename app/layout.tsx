@@ -6,6 +6,7 @@ import {
   SITE_THEME_COLOR,
   SITE_TITLE,
 } from "@/lib/constants/site";
+import { MascotChatWidget } from "@/components/marketing/MascotChatWidget";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -75,7 +76,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <MascotChatWidget />
+      </body>
     </html>
   );
 }

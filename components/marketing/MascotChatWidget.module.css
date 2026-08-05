@@ -1,0 +1,349 @@
+.widgetContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--ahana-font-sans);
+}
+
+/* Tooltip Alert Balloon */
+.tooltip {
+  background: white;
+  border: 1px solid var(--ahana-border);
+  box-shadow: var(--ahana-shadow-lift);
+  padding: 12px 16px;
+  border-radius: var(--ahana-radius-md);
+  margin-bottom: 12px;
+  max-width: 240px;
+  position: relative;
+  animation: floatIn 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltip p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ahana-text);
+  line-height: 1.4;
+}
+
+.tooltipClose {
+  background: transparent;
+  border: 0;
+  font-size: 16px;
+  color: var(--ahana-muted);
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+/* Floating Action Trigger Button */
+.chatTrigger {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--ahana-purple);
+  border: 4px solid white;
+  box-shadow: 0 10px 25px rgba(121, 27, 117, 0.25);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s;
+}
+
+.chatTrigger:hover {
+  transform: scale(1.08);
+  box-shadow: 0 14px 30px rgba(121, 27, 117, 0.35);
+}
+
+.activeTrigger {
+  transform: rotate(90deg) scale(0.95);
+  background: var(--ahana-purple-dark);
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.avatarImage {
+  object-fit: cover;
+}
+
+.pulseDot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--ahana-success);
+  border: 2px solid white;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Expandable Chat Console */
+.chatConsole {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  width: 380px;
+  height: 520px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(121, 27, 117, 0.15);
+  border-radius: var(--ahana-radius-lg);
+  box-shadow: var(--ahana-shadow-lift);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chatHeader {
+  background: var(--ahana-purple);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.headerMascot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.headerAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  overflow: hidden;
+}
+
+.headerAvatarImg {
+  object-fit: cover;
+}
+
+.mascotName {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.statusIndicator {
+  font-size: 11px;
+  opacity: 0.85;
+  display: block;
+}
+
+.closeConsole {
+  background: transparent;
+  border: 0;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+
+.closeConsole:hover {
+  opacity: 1;
+}
+
+/* Messages List */
+.messagesList {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #faf7f2;
+}
+
+.messageWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.botMessage {
+  align-self: flex-start;
+}
+
+.userMessage {
+  align-self: flex-end;
+}
+
+.messageBubble {
+  padding: 12px 16px;
+  border-radius: var(--ahana-radius-md);
+  box-shadow: var(--ahana-shadow-sm);
+  position: relative;
+}
+
+.botMessage .messageBubble {
+  background: white;
+  color: var(--ahana-text);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--ahana-border);
+}
+
+.userMessage .messageBubble {
+  background: var(--ahana-purple);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.messageText {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.messageTime {
+  display: block;
+  font-size: 10px;
+  margin-top: 6px;
+  opacity: 0.6;
+  text-align: right;
+}
+
+/* Suggested Helpers */
+.suggestionsContainer {
+  padding: 8px 16px;
+  background: white;
+  border-top: 1px solid var(--ahana-border);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.suggestionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.suggestionBtn {
+  background: var(--ahana-lavender);
+  color: var(--ahana-purple-dark);
+  border: 1px solid rgba(121, 27, 117, 0.12);
+  padding: 6px 12px;
+  border-radius: var(--ahana-radius-pill);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s;
+}
+
+.suggestionBtn:hover {
+  background: var(--ahana-purple);
+  color: white;
+}
+
+/* Text Input Panel */
+.inputArea {
+  display: flex;
+  padding: 12px 16px;
+  background: white;
+  border-top: 1px solid var(--ahana-border);
+  gap: 12px;
+}
+
+.chatInput {
+  flex: 1;
+  border: 1px solid var(--ahana-border);
+  border-radius: var(--ahana-radius-md);
+  padding: 10px 14px;
+  font-size: 13.5px;
+  outline: none;
+  background: #faf7f2;
+}
+
+.chatInput:focus {
+  border-color: var(--ahana-purple);
+  background: white;
+}
+
+.sendButton {
+  background: var(--ahana-purple);
+  color: white;
+  border: 0;
+  border-radius: var(--ahana-radius-md);
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.15s;
+}
+
+.sendButton:hover:not(:disabled) {
+  background: var(--ahana-purple-dark);
+}
+
+.sendButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Keyframe Animations */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .chatConsole {
+    width: calc(100vw - 32px);
+    right: -8px;
+    height: 480px;
+  }
+}
