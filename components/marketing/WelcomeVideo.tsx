@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./WelcomeVideo.module.css";
 
 type Track = {
@@ -36,19 +36,26 @@ const TRACKS: readonly Track[] = [
 export function WelcomeVideo() {
   const [activeId, setActiveId] = useState(TRACKS[0].id);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hasSelectedTrack = useRef(false);
 
   const active = TRACKS.find((track) => track.id === activeId) ?? TRACKS[0];
 
   function selectTrack(track: Track) {
-    if (track.id === activeId) return;
-    setActiveId(track.id);
-    // Reload so the new source is picked up, and leave it paused.
-    const video = videoRef.current;
-    if (video) {
-      video.pause();
-      video.load();
+    hasSelectedTrack.current = true;
+    if (track.id === activeId) {
+      void videoRef.current?.play().catch(() => undefined);
+      return;
     }
+    setActiveId(track.id);
   }
+
+  useEffect(() => {
+    if (!hasSelectedTrack.current) return;
+    const video = videoRef.current;
+    if (!video) return;
+    video.load();
+    void video.play().catch(() => undefined);
+  }, [activeId]);
 
   return (
     <figure className={styles.card}>

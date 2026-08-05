@@ -1,5 +1,6 @@
 .header {
-  background: #791b75;
+  /* Matches the native background baked into the approved logo asset. */
+  background: #291434;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -25,7 +26,6 @@
   width: auto;
   object-fit: contain;
   display: block;
-  mix-blend-mode: screen;
 }
 
 .brand:focus-visible {

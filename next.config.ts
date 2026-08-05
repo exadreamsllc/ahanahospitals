@@ -67,7 +67,12 @@ function contentSecurityPolicy(): string {
     "base-uri": ["'none'"],
     "form-action": ["'self'"],
     "frame-ancestors": ["'none'"],
-    "frame-src": ["'none'"],
+    // Ahana's approved awareness and founder videos are embedded from YouTube.
+    // Keep the allowlist narrow so arbitrary third-party frames remain blocked.
+    "frame-src": [
+      "https://www.youtube.com",
+      "https://www.youtube-nocookie.com",
+    ],
   };
 
   const policy = Object.entries(directives)

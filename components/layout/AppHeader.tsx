@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import { SecondaryLink } from "@/components/ui/SecondaryLink";
 import {
   MEMBER_NAV,
   PUBLIC_NAV,
@@ -66,14 +65,7 @@ export function AppHeader({ isAuthenticated = false, nav }: AppHeaderProps) {
                   Sign out
                 </PrimaryButton>
               </form>
-            ) : (
-              <>
-                <SecondaryLink href={ROUTES.login}>Log in</SecondaryLink>
-                <SecondaryLink href={ROUTES.register} appearance="button">
-                  Create account
-                </SecondaryLink>
-              </>
-            )}
+            ) : null}
           </div>
         </nav>
       </div>

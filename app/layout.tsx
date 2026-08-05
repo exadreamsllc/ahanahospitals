@@ -56,12 +56,12 @@ export default function RootLayout({
               "@type": "MedicalOrganization",
               "name": "Ahana Hospitals",
               "alternateName": "M.S. Chellamuthu Trust & Research Foundation",
-              "url": "https://www.dotheneeds.com",
-              "logo": "https://www.dotheneeds.com/assets/logo.webp",
+              "url": "https://www.ahanahospitals.in",
+              "logo": "https://www.ahanahospitals.in/assets/logo.webp",
               "contactPoint": {
                 "@type": "ContactPoint",
-                "telephone": "+91-9600314219",
-                "contactType": "emergency helpline",
+                "telephone": "+91-9006006000",
+                "contactType": "hospital enquiries",
                 "areaServed": "IN",
                 "availableLanguage": ["English", "Tamil"]
               },
@@ -75,32 +75,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
-        {children}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.addEventListener('pageshow', (event) => {
-                const isBackForward = event.persisted || 
-                  (window.performance && window.performance.navigation && window.performance.navigation.type === 2) ||
-                  (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType("navigation")[0]?.type === "back_forward");
-                if (isBackForward) {
-                  window.location.reload();
-                }
-              });
-              if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js').then((reg) => {
-                    console.log('SW registered successfully:', reg.scope);
-                  }).catch((err) => {
-                    console.error('SW registration failed:', err);
-                  });
-                });
-              }
-            `,
-          }}
-        />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
