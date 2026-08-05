@@ -7,23 +7,23 @@
 .label {
   display: block;
   font-weight: 700;
-  color: var(--ahana-purple-dark);
+  color: #342e3f;
   margin-bottom: var(--ahana-space-2);
 }
 
 .optional {
   font-weight: 400;
-  color: var(--ahana-muted);
+  color: #6b6373;
   font-size: var(--ahana-font-size-sm);
 }
 
 .control {
   width: 100%;
   padding: 13px 14px;
-  border: 1px solid var(--ahana-border-strong);
+  border: 1px solid #cbd5e1;
   border-radius: var(--ahana-radius-md);
-  background: var(--ahana-white);
-  color: var(--ahana-text);
+  background: #ffffff;
+  color: #342e3f;
   font-family: inherit;
   font-size: var(--ahana-font-size-base);
   line-height: 1.4;

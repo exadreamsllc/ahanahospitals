@@ -1,6 +1,6 @@
 .header {
-  background: var(--ahana-white);
-  border-bottom: 1px solid var(--ahana-border);
+  background: #791b75;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .inner {
@@ -69,7 +69,7 @@
   display: inline-block;
   padding: var(--ahana-space-2) var(--ahana-space-3);
   border-radius: var(--ahana-radius-sm);
-  color: var(--ahana-purple-dark);
+  color: #ffffff;
   font-weight: 600;
   text-decoration: none;
   min-height: 44px;
@@ -77,8 +77,8 @@
 }
 
 .navLink:hover {
-  background: var(--ahana-lavender);
-  color: var(--ahana-purple-dark);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .navLink:focus-visible {
