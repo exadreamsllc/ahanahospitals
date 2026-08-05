@@ -1,6 +1,7 @@
 .footer {
-  background: var(--ahana-purple-dark);
-  color: var(--ahana-white);
+  background: rgba(11, 8, 19, 0.4);
+  border-top: 1px solid var(--ahana-border);
+  color: #ffffff;
   margin-top: auto;
   padding: var(--ahana-space-10) 0 var(--ahana-space-8);
 }
@@ -33,7 +34,7 @@
 }
 
 .link {
-  color: var(--ahana-white);
+  color: #ffffff;
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;

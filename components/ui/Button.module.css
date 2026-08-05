@@ -36,12 +36,12 @@
 
 .primary {
   background: var(--ahana-purple);
-  color: var(--ahana-white);
+  color: #ffffff;
 }
 
 .primary:hover:not(:disabled) {
   background: var(--ahana-purple-dark);
-  color: var(--ahana-white);
+  color: #ffffff;
 }
 
 .secondary {

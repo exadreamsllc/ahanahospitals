@@ -6,23 +6,23 @@
 
 :root {
   /* Brand palette */
-  --ahana-purple: #4c2e83;
-  --ahana-purple-dark: #342047;
-  --ahana-lavender: #e9e0f7;
-  --ahana-cream: #faf7f2;
-  --ahana-orange: #f28c28;
-  --ahana-text: #342e3f;
-  --ahana-muted: #6b6373;
-  --ahana-success: #205c32;
-  --ahana-danger: #8a1c1c;
-  --ahana-white: #ffffff;
+  --ahana-purple: #7c3aed;
+  --ahana-purple-dark: #f8fafc;
+  --ahana-lavender: rgba(124, 58, 237, 0.15);
+  --ahana-cream: #0b0813;
+  --ahana-orange: #f59e0b;
+  --ahana-text: #cbd5e1;
+  --ahana-muted: #94a3b8;
+  --ahana-success: #10b981;
+  --ahana-danger: #ef4444;
+  --ahana-white: rgba(255, 255, 255, 0.03);
 
   /* Derived surfaces (opacity blends of the approved palette only) */
-  --ahana-border: color-mix(in srgb, var(--ahana-purple) 22%, var(--ahana-white));
-  --ahana-border-strong: color-mix(in srgb, var(--ahana-purple) 38%, var(--ahana-white));
-  --ahana-surface-success: color-mix(in srgb, var(--ahana-success) 10%, var(--ahana-white));
-  --ahana-surface-danger: color-mix(in srgb, var(--ahana-danger) 8%, var(--ahana-white));
-  --ahana-surface-info: var(--ahana-lavender);
+  --ahana-border: rgba(255, 255, 255, 0.08);
+  --ahana-border-strong: rgba(255, 255, 255, 0.15);
+  --ahana-surface-success: rgba(16, 185, 129, 0.12);
+  --ahana-surface-danger: rgba(239, 68, 68, 0.12);
+  --ahana-surface-info: rgba(124, 58, 237, 0.15);
 
   /* Typography */
   --ahana-font-sans: var(--font-geist-sans), "Segoe UI", system-ui, -apple-system,
@@ -61,10 +61,10 @@
   --ahana-shadow-lift: 0 14px 34px rgba(76, 46, 131, 0.13);
 
   /* Marketing surfaces */
-  --ahana-surface-soft: #fdfbf8;
-  --ahana-surface-warm: #fff2ea;
-  --ahana-surface-warm-border: #f2d6c3;
-  --ahana-panel-gradient: linear-gradient(145deg, #ffffff, #fbf6ef);
+  --ahana-surface-soft: rgba(255, 255, 255, 0.01);
+  --ahana-surface-warm: rgba(245, 158, 11, 0.06);
+  --ahana-surface-warm-border: rgba(245, 158, 11, 0.2);
+  --ahana-panel-gradient: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
   --ahana-section-padding: clamp(56px, 7vw, 84px);
 
   /* Layout */

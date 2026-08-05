@@ -15,7 +15,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--ahana-cream);
+  background-color: #0b0813;
+  background-image: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 45%), radial-gradient(circle at 90% 80%, rgba(217, 70, 239, 0.08) 0%, transparent 45%);
   color: var(--ahana-text);
   font-family: var(--ahana-font-sans);
   font-size: var(--ahana-font-size-base);
