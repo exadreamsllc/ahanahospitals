@@ -6,23 +6,23 @@
 
 :root {
   /* Brand palette */
-  --ahana-purple: #7c3aed;
-  --ahana-purple-dark: #f8fafc;
-  --ahana-lavender: rgba(124, 58, 237, 0.15);
-  --ahana-cream: #0e020d;
+  --ahana-purple: #791b75;
+  --ahana-purple-dark: #4f0f4c;
+  --ahana-lavender: #f3e8ff;
+  --ahana-cream: #faf7f2;
   --ahana-orange: #f59e0b;
-  --ahana-text: #cbd5e1;
-  --ahana-muted: #94a3b8;
+  --ahana-text: #1e1b29;
+  --ahana-muted: #6b6373;
   --ahana-success: #10b981;
   --ahana-danger: #ef4444;
-  --ahana-white: rgba(255, 255, 255, 0.03);
+  --ahana-white: #ffffff;
 
-  /* Derived surfaces (opacity blends of the approved palette only) */
-  --ahana-border: rgba(255, 255, 255, 0.08);
-  --ahana-border-strong: rgba(255, 255, 255, 0.15);
-  --ahana-surface-success: rgba(16, 185, 129, 0.12);
-  --ahana-surface-danger: rgba(239, 68, 68, 0.12);
-  --ahana-surface-info: rgba(124, 58, 237, 0.15);
+  /* Derived surfaces */
+  --ahana-border: #e2e8f0;
+  --ahana-border-strong: #cbd5e1;
+  --ahana-surface-success: rgba(16, 185, 129, 0.08);
+  --ahana-surface-danger: rgba(239, 68, 68, 0.08);
+  --ahana-surface-info: #f3e8ff;
 
   /* Typography */
   --ahana-font-sans: var(--font-geist-sans), "Segoe UI", system-ui, -apple-system,
@@ -56,15 +56,15 @@
   --ahana-radius-pill: 999px;
 
   /* Elevation */
-  --ahana-shadow-sm: 0 6px 18px rgba(76, 46, 131, 0.08);
-  --ahana-shadow-md: 0 20px 60px rgba(76, 46, 131, 0.12);
-  --ahana-shadow-lift: 0 14px 34px rgba(76, 46, 131, 0.13);
+  --ahana-shadow-sm: 0 4px 12px rgba(121, 27, 117, 0.05);
+  --ahana-shadow-md: 0 12px 30px rgba(121, 27, 117, 0.08);
+  --ahana-shadow-lift: 0 16px 40px rgba(121, 27, 117, 0.12);
 
   /* Marketing surfaces */
-  --ahana-surface-soft: rgba(255, 255, 255, 0.01);
-  --ahana-surface-warm: rgba(245, 158, 11, 0.06);
-  --ahana-surface-warm-border: rgba(245, 158, 11, 0.2);
-  --ahana-panel-gradient: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  --ahana-surface-soft: #f8fafc;
+  --ahana-surface-warm: rgba(245, 158, 11, 0.04);
+  --ahana-surface-warm-border: rgba(245, 158, 11, 0.15);
+  --ahana-panel-gradient: linear-gradient(145deg, #ffffff, #faf7f2);
   --ahana-section-padding: clamp(56px, 7vw, 84px);
 
   /* Layout */
@@ -72,5 +72,5 @@
   --ahana-auth-width: 620px;
 
   /* Focus ring — used consistently on every interactive element */
-  --ahana-focus-ring: 0 0 0 2px #0b0813, 0 0 0 4px #7c3aed;
+  --ahana-focus-ring: 0 0 0 2px #ffffff, 0 0 0 4px #791b75;
 }
