@@ -42,7 +42,12 @@ export async function proxy(request: NextRequest) {
   }
 
   // 1. Run Supabase session validation (refreshes tokens and handles cookie transfers)
-  const response = await updateSession(request);
+  let response = NextResponse.next({ request });
+  try {
+    response = await updateSession(request);
+  } catch (err) {
+    console.error("Supabase session update skipped/failed:", err);
+  }
 
   // 2. Dynamic path-based routing for /LSHC/[tenant]/... or /[tenant.com]/...
   const segments = pathname.split("/");
