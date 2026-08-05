@@ -17,8 +17,8 @@ export function AppFooter() {
         <div>
           <span className={styles.brandName}>{SITE_NAME}</span>
           <p className={styles.tagline}>
-            Compassionate mental health, neuropsychiatric care, rehabilitation,
-            education and community support.
+            A Unit of the M.S. Chellamuthu Trust & Research Foundation.
+            Helping touch, heal, and rehabilitate lives in Madurai since 1992.
           </p>
         </div>
 

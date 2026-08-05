@@ -51,7 +51,7 @@ export type NavItem = {
 
 export const PUBLIC_NAV: readonly NavItem[] = [
   { href: ROUTES.home, label: "Home" },
-  { href: ROUTES.productOverview, label: "Product Overview" },
+  { href: ROUTES.productOverview, label: "Services Overview" },
   { href: ROUTES.founder, label: "Our Founder" },
   { href: ROUTES.resources, label: "Resources" },
   { href: ROUTES.letsTalk, label: "Let's Talk" },

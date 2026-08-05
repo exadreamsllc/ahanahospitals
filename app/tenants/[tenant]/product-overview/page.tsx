@@ -13,9 +13,9 @@ import { NO_MEDICAL_RECORDS_NOTICE, ROUTES } from "@/lib/constants/site";
 import styles from "./product-overview.module.css";
 
 export const metadata: Metadata = {
-  title: "Product Overview",
+  title: "Clinical Workspaces & Portals",
   description:
-    "What the Ahana Hospitals platform does today — public website, member identity, Knowledge Centre, founder legacy, resources, My Library and Let's Talk.",
+    "What the Ahana Hospitals platform does today — public website, patient identity, clinical consoles, Knowledge Centre resources, and intake channels.",
 };
 
 export default async function ProductOverviewPage() {
@@ -23,8 +23,8 @@ export default async function ProductOverviewPage() {
 
   return (
     <MemberShell
-      title="Product Overview"
-      description="What the Ahana platform does today, and what is coming next."
+      title="Clinical Workspaces & Portals"
+      description="What the Ahana Hospitals platform does today, and what is coming next."
       isAuthenticated={Boolean(user)}
     >
       <div className={styles.stack}>

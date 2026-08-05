@@ -13,9 +13,8 @@ export const FOUNDER = {
   name: "Dr. C. Ramasubramanian",
   title: "Founder, Ahana Hospitals",
   portrait: "/assets/founder.webp",
-  /** Drawn from the founder profile brochure summary on the V2 site. */
   summary:
-    "Founder of Ahana Hospitals, known for contributions to community mental health, rehabilitation work, public education and recognition in the field.",
+    "Founder of Ahana Hospitals and the M.S. Chellamuthu Trust & Research Foundation. Renowned for pioneering psychiatric rehabilitation, community mental health programs, and advocacy across South India for over three decades.",
   brochureUrl: "/assets/brochures/dr-c-ramasubramanian-profile.pdf",
 } as const;
 
@@ -72,8 +71,8 @@ export const FOUNDER_TIMELINE: readonly TimelineEntry[] = [
 
 /** Biography paragraphs. Only the approved summary is asserted as fact. */
 export const FOUNDER_BIOGRAPHY: readonly string[] = [
-  "Ahana Hospitals was founded on a simple belief: every person deserves to be heard, treated with dignity and supported beyond the hospital walls.",
-  "That belief shapes how care is delivered today — clinical treatment combined with rehabilitation, family involvement and community participation.",
+  "Dr. C. Ramasubramanian founded the M.S. Chellamuthu Trust & Research Foundation with a simple vision: to make mental health care accessible, affordable, and holistic. Ahana Hospitals stands today as the clinical realization of this lifelong advocacy.",
+  "This clinical vision shapes how care is delivered at Ahana today — combining advanced psychiatric treatment with community rehabilitation, caregiver education, and family participation."
 ];
 
 export const FOUNDER_BIOGRAPHY_NOTE =

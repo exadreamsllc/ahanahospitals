@@ -47,6 +47,34 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MedicalOrganization",
+              "name": "Ahana Hospitals",
+              "alternateName": "M.S. Chellamuthu Trust & Research Foundation",
+              "url": "https://www.dotheneeds.com",
+              "logo": "https://www.dotheneeds.com/assets/logo.webp",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+91-9600314219",
+                "contactType": "emergency helpline",
+                "areaServed": "IN",
+                "availableLanguage": ["English", "Tamil"]
+              },
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Madurai",
+                "addressRegion": "Tamil Nadu",
+                "addressCountry": "IN"
+              }
+            })
+          }}
+        />
+      </head>
       <body>
         {children}
         <script
