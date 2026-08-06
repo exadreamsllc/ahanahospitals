@@ -12,10 +12,9 @@ type Message = {
 };
 
 const SUGGESTED_QUESTIONS = [
+  { id: "about", text: "🏥 About Ahana & M.S. Chellamuthu Trust" },
   { id: "topics", text: "🧠 Top 10 Mental Fitness Topics" },
   { id: "rehab", text: "Tell me about psychiatric rehab" },
-  { id: "caregiver", text: "Helpful caregiver resources" },
-  { id: "founder", text: "Who is Dr. C. Ramasubramanian?" },
   { id: "callback", text: "How can I request a callback?" },
 ];
 
@@ -58,7 +57,33 @@ export function MascotChatWidget() {
       let replyOptions: string[] | undefined = undefined;
       const normalized = text.toLowerCase();
 
-      if (normalized.includes("mental fitness") || normalized.includes("topics")) {
+      // 1. Institutional FAQ Option & Sub-questions
+      if (normalized.includes("about ahana") || normalized.includes("chellamuthu trust") || normalized.includes("about") || normalized.includes("legacy")) {
+        replyText = "I can answer your questions about our facilities, services, and legacy. Select any question below to learn more:";
+        replyOptions = [
+          "Why choose Ahana Hospitals?",
+          "What is the connection to the M.S. Chellamuthu Trust?",
+          "What kinds of treatments are offered here?",
+          "How is the quality of care overall?",
+          "What in-house services are available?",
+          "Is the hospital open round-the-clock?"
+        ];
+      } else if (normalized.includes("why choose ahana")) {
+        replyText = "Ahana Hospitals is South India's leading neuropsychiatric and rehabilitation center. We combine world-class clinical expertise with compassionate care, focusing on holistic recovery rather than just symptom management.";
+      } else if (normalized.includes("connection to the") || normalized.includes("connection to") || (normalized.includes("m.s. chellamuthu") && normalized.includes("connection"))) {
+        replyText = "Ahana is the clinical arm of the M.S. Chellamuthu Trust & Research Foundation, which has pioneered mental health care and psychiatric rehabilitation since 1992. This partnership ensures that clinical treatments are backed by decades of community rehabilitation expertise.";
+      } else if (normalized.includes("treatments are offered") || normalized.includes("kinds of treatments")) {
+        replyText = "We offer comprehensive psychiatric care, clinical psychology, child and adolescent guidance, addiction medicine, geriatric psychiatry, and specialized long-term rehabilitation programs.";
+      } else if (normalized.includes("quality of care") || normalized.includes("care overall")) {
+        replyText = "Our care model is holistic and family-centric. We believe in treating patients with dignity, involving family members in therapy, and focusing on long-term wellness, vocational training, and social re-integration.";
+      } else if (normalized.includes("in-house services") || normalized.includes("inhouse services") || normalized.includes("in-house")) {
+        replyText = "We provide in-patient wards, out-patient consultations, diagnostic laboratories, a fully stocked in-house pharmacy, emergency stabilization units, and specialized rehabilitation therapy centers.";
+      } else if (normalized.includes("round-the-clock") || normalized.includes("round the clock") || normalized.includes("24/7") || normalized.includes("open round")) {
+        replyText = "Yes, Ahana Hospitals operates 24/7. We provide round-the-clock emergency psychiatric services, inpatient nursing care, and emergency helpline support (+91-9006006000).";
+      }
+      
+      // 2. Mental Fitness Q&A Option & Sub-questions
+      else if (normalized.includes("mental fitness") || normalized.includes("topics")) {
         replyText = "Here is a list of 10 key mental fitness topics. Select any topic below to learn more, or type a keyword (e.g. 'sleep'):";
         replyOptions = [
           "1. Stress & Burnout",
