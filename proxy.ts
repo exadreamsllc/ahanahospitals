@@ -35,8 +35,8 @@ export async function proxy(request: NextRequest) {
       subdomain = part;
     }
   } else if (
-    hostname.includes("ahanahospitals.vercel.app") ||
-    hostname.includes("ahana-hospitals.vercel.app")
+    hostname.includes("ahanahospitals") ||
+    hostname.includes("ahana-hospitals")
   ) {
     subdomain = "ahana";
   }
