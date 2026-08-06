@@ -8,9 +8,11 @@ type Message = {
   sender: "bot" | "user";
   text: string;
   time: string;
+  options?: string[];
 };
 
 const SUGGESTED_QUESTIONS = [
+  { id: "topics", text: "🧠 Top 10 Mental Fitness Topics" },
   { id: "rehab", text: "Tell me about psychiatric rehab" },
   { id: "caregiver", text: "Helpful caregiver resources" },
   { id: "founder", text: "Who is Dr. C. Ramasubramanian?" },
@@ -50,14 +52,49 @@ export function MascotChatWidget() {
     setMessages((prev) => [...prev, userMsg]);
     setInputValue("");
 
-    // Simulate bot thinking and responding
+    // Simulate bot thinking and responding with a snappy 750ms delay
     setTimeout(() => {
       let replyText = "Thank you for reaching out. For specific clinical questions, please connect directly with our medical officers. I'm here to share general information!";
+      let replyOptions: string[] | undefined = undefined;
       const normalized = text.toLowerCase();
 
-      if (normalized.includes("rehab") || normalized.includes("psychiatric")) {
+      if (normalized.includes("mental fitness") || normalized.includes("topics")) {
+        replyText = "Here is a list of 10 key mental fitness topics. Select any topic below to learn more, or type a keyword (e.g. 'sleep'):";
+        replyOptions = [
+          "1. Stress & Burnout",
+          "2. Anxiety & Panic",
+          "3. Depression & Mood",
+          "4. Sleep & Insomnia",
+          "5. Mindfulness & Meditation",
+          "6. Caregiver Support",
+          "7. Substance De-addiction",
+          "8. Child & Teen Stress",
+          "9. Emotional Resilience",
+          "10. Social Re-integration"
+        ];
+      } else if (normalized.includes("stress") || normalized.includes("burnout")) {
+        replyText = "Stress and burnout are best managed by scheduling micro-breaks, practicing deep breathing, and setting firm boundaries. Daily active physical walking in nature helps lower cortisol levels.";
+      } else if (normalized.includes("anxiety") || normalized.includes("panic") || normalized.includes("grounding")) {
+        replyText = "During a panic attack, try the 5-4-3-2-1 grounding method: identify 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you taste. Breathe slowly, extending your exhale.";
+      } else if (normalized.includes("depression") || normalized.includes("mood")) {
+        replyText = "Depression affects energy, sleep, and interest. Simple daily actions—like 15 minutes of morning sunlight, simple routines, and sharing your feelings with a loved one—help activate recovery.";
+      } else if (normalized.includes("sleep") || normalized.includes("insomnia")) {
+        replyText = "Good sleep hygiene involves maintaining a fixed sleep schedule, keeping screens away 1 hour before bedtime, and keeping your room cool and dark. Avoid heavy meals close to sleep.";
+      } else if (normalized.includes("mindfulness") || normalized.includes("meditation")) {
+        replyText = "Mindfulness is paying attention to the present moment without judgment. Spend 5 minutes daily observing your breath or doing a body scan to calm the nervous system.";
+      } else if (normalized.includes("caregiver")) {
+        replyText = "Caring for a loved one with mental illness can be exhausting. Remember, self-care is not selfish. Join caregiver support groups, delegate tasks, and seek respite care.";
+      } else if (normalized.includes("substance") || normalized.includes("de-addiction") || normalized.includes("addiction")) {
+        replyText = "De-addiction requires a combination of medical detoxification, counseling, and long-term relapse prevention programs. Our rehabilitation pathways help rebuild healthy routines.";
+      } else if (normalized.includes("child") || normalized.includes("teen") || normalized.includes("academic") || normalized.includes("student")) {
+        replyText = "Youth face unique pressures like academic stress, screen addiction, and peer anxiety. Open, non-judgmental communication at home combined with early counseling is key.";
+      } else if (normalized.includes("resilience") || normalized.includes("coping")) {
+        replyText = "Resilience is the ability to bounce back from adversity. It is built by developing problem-solving skills, accepting change as part of life, and nurturing positive self-belief.";
+      } else if (normalized.includes("integration") || normalized.includes("vocational")) {
+        replyText = "Recovery is complete when a patient successfully rejoins society. Our trust offers vocational training and community housing to support the transition back to work and family life.";
+      } else if (normalized.includes("rehab") || normalized.includes("psychiatric")) {
         replyText = "Ahana Hospitals runs specialized psychiatric rehabilitation and de-addiction centers in Madurai, supported by the M.S. Chellamuthu Trust. We focus on therapy, vocational rehabilitation, and cognitive training.";
-      } else if (normalized.includes("caregiver") || normalized.includes("resources")) {
+      } else if (normalized.includes("resources")) {
         replyText = "Yes! Caregivers can find support guides in our 'Resources' tab, including specialized training, counselling, and local support network details.";
       } else if (normalized.includes("founder") || normalized.includes("ramasubramanian")) {
         replyText = "Our founder, Dr. C. Ramasubramanian, is a pioneer in South Indian community psychiatry and established the M.S. Chellamuthu Trust in 1992 to make mental health support accessible to all.";
@@ -66,8 +103,8 @@ export function MascotChatWidget() {
       }
 
       const botTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      setMessages((prev) => [...prev, { sender: "bot", text: replyText, time: botTime }]);
-    }, 8000);
+      setMessages((prev) => [...prev, { sender: "bot", text: replyText, time: botTime, options: replyOptions }]);
+    }, 750);
   };
 
   return (
@@ -152,6 +189,34 @@ export function MascotChatWidget() {
               >
                 <div className={styles.messageBubble}>
                   <p className={styles.messageText}>{msg.text}</p>
+                  
+                  {msg.options && msg.options.length > 0 && (
+                    <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                      {msg.options.map((opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => handleSendMessage(opt)}
+                          style={{
+                            background: "white",
+                            border: "1px solid var(--ahana-purple)",
+                            borderRadius: "6px",
+                            padding: "8px 12px",
+                            fontSize: "12.5px",
+                            color: "var(--ahana-purple)",
+                            textAlign: "left",
+                            cursor: "pointer",
+                            width: "100%",
+                            fontWeight: "600",
+                            lineHeight: "1.4",
+                          }}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
                   <span className={styles.messageTime}>{msg.time}</span>
                 </div>
               </div>
